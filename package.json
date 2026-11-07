@@ -11,7 +11,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:db": "bash scripts/test-migrations.sh",
-    "pipeline:run": "tsx scripts/run-pipeline.ts"
+    "pipeline:run": "node --env-file=.env.local --conditions=react-server --import tsx scripts/run-pipeline.ts"
   },
   "engines": {
     "node": ">=20"
