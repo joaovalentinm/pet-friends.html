@@ -6,10 +6,8 @@ export const Obs = z.object({
   type: z.enum(["evidencia", "hipotese", "indisponivel"]),
 });
 
-export const CONTENT_FORMATS = [
-  "talking_head", "storytelling", "tutorial", "demonstracao", "noticia", "opiniao", "comparacao",
-  "lista", "estudo_de_caso", "trend", "reacao", "entrevista", "provocativo",
-] as const;
+import { CONTENT_FORMATS } from "@/lib/constants";
+export { CONTENT_FORMATS };
 
 export const VideoAnalysisSchema = z.object({
   formats: z.array(z.enum(CONTENT_FORMATS)),

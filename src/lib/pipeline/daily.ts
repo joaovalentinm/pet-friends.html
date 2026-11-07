@@ -311,6 +311,43 @@ export async function runDailyPipeline(runId: string, opts: RunOptions) {
   });
   stats.top10 = top?.count ?? 0;
 
+  // 6b. Descoberta de novos criadores ------------------------------------------
+  await stage("descobrir_criadores", async () => {
+    const min = Number(await getSetting(db, "min_followers", 40000));
+    const { data: known } = await db.from("creators").select("instagram_handle,youtube_channel_id");
+    const knownYt = new Set((known ?? []).map((k) => k.youtube_channel_id).filter(Boolean));
+    const knownIg = new Set((known ?? []).map((k) => k.instagram_handle).filter(Boolean));
+    const strong = scoredRows.filter(
+      (r) => ["viral_confirmado", "muito_acima_media"].includes(r.result.classification) && r.relevance >= 0.5 && !r.video.collected.creatorId,
+    );
+    const byChannel = new Map<string, typeof strong>();
+    for (const r of strong) {
+      const c = r.video.collected;
+      if (c.platform === "youtube" && knownYt.has(c.channel.externalId)) continue;
+      if (c.platform === "instagram" && knownIg.has(c.channel.externalId)) continue;
+      if ((c.channel.followers ?? 0) < min) continue; // só sugere quem já tem o mínimo na plataforma de origem
+      const k = `${c.platform}:${c.channel.externalId}`;
+      byChannel.set(k, [...(byChannel.get(k) ?? []), r]);
+    }
+    const rows = [...byChannel.values()].map((list) => {
+      const c = list[0].video.collected;
+      return {
+        name: c.channel.name ?? c.channel.externalId,
+        platform: c.platform,
+        handle: c.channel.handle ?? c.channel.externalId,
+        url: c.platform === "youtube" ? `https://www.youtube.com/channel/${c.channel.externalId}` : c.url,
+        followers: c.channel.followers,
+        followers_quality: "observado",
+        followers_source: c.sourceId,
+        reason: `${list.length} conteúdo(s) muito acima do padrão do próprio criador no radar de ${runDate} (ex.: ${list[0].result.viralIndex ?? "?"}x). Validar Instagram (mínimo ${min}).`,
+        evidence: list.slice(0, 5).map((r) => ({ video_id: r.video.id, url: r.video.collected.url, viral_index: r.result.viralIndex, channel_id: c.channel.externalId })),
+      };
+    });
+    if (rows.length) await db.from("creator_suggestions").upsert(rows, { onConflict: "platform,handle", ignoreDuplicates: true });
+    stats.sugestoes_criadores = rows.length;
+    return { suggestions: rows.length };
+  });
+
   // 7. Tendências ---------------------------------------------------------------
   type TrendRow = { id: string; slug: string; title: string; status: string; adaptation: string; record_now: boolean };
   let trendRows: TrendRow[] = [];

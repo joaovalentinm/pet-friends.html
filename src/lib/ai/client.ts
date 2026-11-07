@@ -75,13 +75,15 @@ export async function aiParse<S extends z.ZodType>(opts: ParseOptions<S>): Promi
   await assertBudget();
   const anthropic = getClient();
   const model = env.aiModel;
-  const response = await anthropic.beta.messages.parse({
+  const format = betaZodOutputFormat(opts.schema);
+  // create (sem parse automático): verificamos stop_reason ANTES de validar a saída
+  const response = await anthropic.beta.messages.create({
     model,
     max_tokens: opts.maxTokens ?? 16000,
     betas: ["server-side-fallback-2026-07-01"],
     fallbacks: "default",
     thinking: { type: "adaptive" },
-    output_config: { effort: opts.effort ?? env.aiEffort, format: betaZodOutputFormat(opts.schema) },
+    output_config: { effort: opts.effort ?? env.aiEffort, format: { type: format.type, schema: format.schema } },
     system: [
       { type: "text", text: JOAO_PERSONA, cache_control: { type: "ephemeral" } },
       { type: "text", text: opts.instructions },
@@ -112,8 +114,19 @@ export async function aiParse<S extends z.ZodType>(opts: ParseOptions<S>): Promi
   if (response.stop_reason === "max_tokens") {
     throw new Error(`Resposta da IA truncada por limite de tokens (${opts.purpose}).`);
   }
-  if (!response.parsed_output) {
-    throw new Error(`Resposta da IA não pôde ser validada (${opts.purpose}).`);
+  const text = response.content
+    .filter((b): b is Anthropic.Beta.Messages.BetaTextBlock => b.type === "text")
+    .map((b) => b.text)
+    .join("");
+  let json: unknown;
+  try {
+    json = JSON.parse(text);
+  } catch {
+    throw new Error(`Resposta da IA não é JSON válido (${opts.purpose}).`);
   }
-  return response.parsed_output as z.infer<S>;
+  const parsed = opts.schema.safeParse(json);
+  if (!parsed.success) {
+    throw new Error(`Resposta da IA fora do formato esperado (${opts.purpose}): ${parsed.error.issues.slice(0, 3).map((i) => i.path.join(".")).join(", ")}`);
+  }
+  return parsed.data as z.infer<S>;
 }
