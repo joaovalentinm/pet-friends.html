@@ -8,6 +8,8 @@ $PSQL -d postgres -c "drop database if exists $DB" -c "create database $DB"
 $PSQL -d "$DB" <<'SQL'
 do $$ begin
   if not exists (select from pg_roles where rolname = 'authenticated') then create role authenticated; end if;
+  if not exists (select from pg_roles where rolname = 'anon') then create role anon; end if;
+  if not exists (select from pg_roles where rolname = 'service_role') then create role service_role bypassrls; end if;
 end $$;
 create schema auth;
 create table auth.users (id uuid primary key, email text);
