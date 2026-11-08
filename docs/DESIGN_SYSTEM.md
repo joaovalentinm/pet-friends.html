@@ -26,7 +26,7 @@ Tons de apoio (vindos do protótipo):
 **Acessibilidade:** o texto branco sobre o laranja `#F97316` tem contraste de 2,8:1, abaixo do mínimo recomendado (4,5:1). Por decisão do responsável mantemos a cor oficial. Para reduzir o problema, os rótulos dos botões são sempre em ExtraBold de 16,5px ou mais. Títulos usam o verde escuro `#14532D`, com contraste de 10:1.
 
 ## Tipografia
-**Nunito** (Google Fonts, licença livre), nos pesos 400, 600, 700, 800 e 900. Títulos de tela usam Black 22px, e o título do bloco de destaque usa Black 26px. Corpo de texto em Regular 16px, rótulos e botões em ExtraBold. O letreiro "PET FRIENDS" é sempre imagem (`assets/brand/`).
+**Nunito** (licença livre, servida pelo próprio site via `@fontsource/nunito`), nos pesos 400, 600, 700, 800 e 900. Títulos de tela usam Black 22px, e o título do bloco de destaque usa Black 26px. Corpo de texto em Regular 16px, rótulos e botões em ExtraBold. O letreiro "PET FRIENDS" é sempre imagem (`assets/brand/`).
 
 ## Forma
 Botões em formato pílula (altura 48, ou 38 na versão pequena). Raio dos cartões: 22. Bloco de destaque com raio 26 e as **colinas** verde e laranja no rodapé. Campos com raio 14. Sombra verde bem suave. Área de toque mínima de 44.
@@ -41,4 +41,4 @@ Abas: **Início · Pets · Caderneta · Lembretes · Locais**. O **Perfil** abre
 Letreiro "PET FRIENDS" branco sobre o verde `#16A34A` (`public/icons/`: 192, 512, maskable e apple-touch). Ele foi gerado a partir do PNG do logo; se houver o logo em vetor, troque por ele para ganhar nitidez.
 
 ## Fora do app (decisão de 08/11/2026)
-Modo escuro, som da marca, pet shops, restaurar backup e o tipo de registro "Cirurgia".
+Modo escuro, pet shops, restaurar backup e o tipo de registro "Cirurgia". (Os sons de notificação e a voz "Pet Friends" ao abrir entraram em 09/11/2026.)
