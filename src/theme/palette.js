@@ -8,16 +8,16 @@
  * Tons de apoio (verde escuro, bordas, fundos de estado) vêm do protótipo
  * oficial (prototipo/pet-friends.html). Não adicione cores fora deste arquivo.
  *
- * CommonJS para ser lido pelo tailwind.config.js e pelo app.
+ * Módulo ES lido pelo tailwind.config.js e pelo app.
  */
 
-const brand = {
+export const brand = {
   orange: '#F97316',
   green: '#16A34A',
   cream: '#FFF8EF',
 };
 
-const semantic = {
+export const semantic = {
   // fundos
   background: '#FFF8EF', // telas
   page: '#F8EEDF',
@@ -47,6 +47,6 @@ const semantic = {
 };
 
 /** Cores dos avatares (iniciais), como no protótipo. */
-const avatarColors = ['#F97316', '#16A34A', '#14532D', '#C2410C', '#15803D', '#9A3412'];
+export const avatarColors = ['#F97316', '#16A34A', '#14532D', '#C2410C', '#15803D', '#9A3412'];
 
-module.exports = { brand, semantic, avatarColors };
+export default { brand, semantic, avatarColors };

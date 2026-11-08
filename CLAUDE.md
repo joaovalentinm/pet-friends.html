@@ -18,34 +18,35 @@ Escopo aprovado (e somente ele):
 
 Decisões do responsável (08/11/2026): **nenhum item extra do protótipo** entra (sem pet shops, modo escuro, restaurar backup, tipo "Cirurgia"). **Atualização 09/11/2026 (pedido do responsável):** entram os **sons** de notificação escolhidos pela pessoa (latido, miado, passarinho ou "plim") e a **voz "Pet Friends" ao abrir o app**, que pode ser desligada. Toda informação cadastrada gera aviso com o nome do pet; detalhes na Etapa 6 de `docs/PLANO_APP_NATIVO.md`. O seletor "Registrando como" do protótipo **não existe** no app: cada pessoa entra com a própria conta, e quem aceita um convite é registrado como **"Convidado"**.
 
-> ⚠️ **MUDANÇA DE ROTA (09/11/2026):** o produto passa a ser um **site instalável (PWA)**, sem Play Store e sem App Store. A proposta de plano e a troca de stack estão em `docs/PLANO_PWA.md`, **aguardando aprovação**. Até a aprovação, não programar a nova rota.
+> ✅ **ROTA ATUAL (aprovada em 09/11/2026):** o produto é um **site instalável (PWA)**, sem Play Store e sem App Store. Plano em `docs/PLANO_PWA.md`. Limite aceito pelo responsável: com o app fechado, a notificação usa o som padrão do celular; o som escolhido toca com o app aberto.
 
 ## Proibido (fora do escopo — não implementar, nem "preparar terreno")
 
 Pagamentos, assinaturas, plano Premium · comunidade/rede social · GPS/rastreamento de animais · marketplace · painel de parceiros · agendamento próprio · qualquer funcionalidade não listada acima. Na dúvida, **pergunte antes**.
 
-## Stack obrigatória
+## Stack obrigatória (site instalável / PWA — aprovada em 09/11/2026)
 
-App: React Native · Expo (development builds, não Expo Go) · TypeScript strict · Expo Router · NativeWind · React Hook Form · Zod · Zustand (estado de cliente) · TanStack Query (dados do servidor — aprovado em 02/11/2026).
-Login: e-mail/senha + Google; "Entrar com Apple" no iOS (exigência da App Store 4.8).
-Lançamento: Nova Iguaçu – Baixada Fluminense (RJ). Região padrão do mapa e da curadoria do diretório.
-Domínio ainda provisório: scheme `petfriends://`, URL web sempre via `EXPO_PUBLIC_WEB_URL` (nunca fixa no código).
+Site: **React 19 + Vite 8 + TypeScript strict** · **Tailwind CSS 3.4** (cores de `src/theme/palette.js`) · **React Router 7** (rotas com `#`, ex.: `/#/pets`) · **vite-plugin-pwa** (manifesto, ícones, service worker, instalação) · fonte Nunito local (`@fontsource/nunito`, só alfabeto latino) · React Hook Form · Zod · Zustand (estado de cliente) · TanStack Query (dados do servidor).
+Login: e-mail/senha + Google.
+Lançamento: Nova Iguaçu – Baixada Fluminense (RJ).
+Endereço: domínio ainda a definir; o site usa caminhos relativos (`base: './'`) e funciona em subpasta ou domínio próprio.
 Backend: Supabase (Postgres, Auth, Storage, Realtime, Edge Functions) com RLS.
-Apoio de UI: `react-native-svg` (ícones do protótipo), `@expo-google-fonts/nunito`. `react-dom`/`react-native-web` só para prévia e testes automatizados de tela, não são alvo de produto.
-Versões atuais: Expo SDK 58, React Native 0.88, NativeWind 4.2.7 + Tailwind 3.4 (NativeWind 5 ainda é RC). Em ambiente com proxy, `npx expo install` precisa de `EXPO_OFFLINE=1`.
-Complementos: Expo Notifications · Google Maps Platform (`react-native-maps` + Places API via Edge Function) · Victory Native · Sentry · Jest + React Native Testing Library · Maestro · EAS Build/Submit.
+Notificações: **Web Push** (service worker + Supabase). Mapas: Google Maps para web + Places via Edge Function. Gráfico de peso: SVG simples. Monitoramento: Sentry (web). Testes: **Vitest + Testing Library**, E2E com **Playwright**.
+Publicar o site no ar (GitHub Pages, Hostinger, Vercel etc.) **só com autorização explícita do responsável**.
 
-**Não troque nem adicione bibliotecas relevantes sem justificar e obter aprovação.** Instale pacotes nativos com `npx expo install`.
+**Não troque nem adicione bibliotecas relevantes sem justificar e obter aprovação.**
 
 ## Estrutura
 
-- `app/` — rotas do Expo Router. Telas finas: compõem componentes e hooks; sem chamadas diretas ao Supabase.
-- `src/components/` — Design System (genérico, sem regra de negócio).
+- `src/pages/` — telas (rotas). Telas finas: compõem componentes e hooks; sem chamadas diretas ao Supabase.
+- `src/components/` — Design System (`ui.tsx`, `Icon`, `Sheet`, `Layout`, `InstallSheet`, `Toast`).
+- `src/pwa/` — instalação na tela de início e detecção do aparelho.
+- `public/` — ícones do PWA e logo.
 - `src/features/<feature>/{components,hooks,services,schemas,types}` — auth, pets, health, care, reminders, family, vets, reports.
 - `src/services/` — cliente Supabase e infraestrutura. **Só services falam com Supabase/APIs.**
 - `src/stores/` (Zustand) · `src/integrations/` · `src/validation/` · `src/types/` · `src/config/` · `src/theme/` · `src/i18n/` · `src/utils/`.
 - `supabase/migrations/`, `supabase/functions/`, `supabase/tests/` (pgTAP).
-- `.maestro/` — fluxos E2E.
+- `e2e/` — fluxos E2E (Playwright).
 
 Imports com alias `@/` → `src/`.
 
@@ -64,8 +65,8 @@ Imports com alias `@/` → `src/`.
 
 - Usar **somente** a identidade visual oficial (logo, paleta, tipografia, elementos). Não inventar cores ou fontes. Referência completa: `docs/DESIGN_SYSTEM.md`.
 - **Paleta oficial (08/11/2026):** laranja `#F97316` (botões de ação, destaques, ícones), verde `#16A34A` (ícone do app, confirmações, concluído), creme `#FFF8EF` (fundo). Tons de apoio do protótipo em `src/theme/palette.js`. Nota: texto branco sobre o laranja tem contraste abaixo do AA; mitigado com texto em negrito ≥ 16,5px (decisão do responsável).
-- Referência visual de telas, textos, ícones e fluxos: `prototipo/pet-friends.html` (recriar em nativo, **não copiar** o código).
-- Fonte: Nunito (`@expo-google-fonts/nunito`). O letreiro do logo é sempre imagem (`assets/brand/`).
+- Referência visual de telas, textos, ícones e fluxos: `prototipo/pet-friends.html` (recriar no site, **não copiar** o código).
+- Fonte: Nunito (`@fontsource/nunito`). O letreiro do logo é sempre imagem (`assets/brand/`).
 - Abas (como no protótipo): **Início · Pets · Caderneta · Lembretes · Locais**. O **Perfil** abre pelo avatar no topo. Nunca criar aba/área de "Comunidade".
 - Estilo apenas via tokens (`src/theme` + `tailwind.config.js`); nada de cor/tamanho hardcoded nas telas.
 - Visual moderno, minimalista, acolhedor; sem excesso de decoração.
@@ -79,7 +80,7 @@ Imports com alias `@/` → `src/`.
 - Toda migration que cria/altera tabela inclui políticas RLS **e** testes pgTAP correspondentes.
 - Funções `security definer` sempre com `set search_path = ''` e nomes qualificados.
 - Buckets de Storage **privados**; caminho `{pet_id}/...`; leitura via signed URL de curta duração.
-- O app só conhece variáveis `EXPO_PUBLIC_*` (URL do Supabase, anon key, DSN do Sentry, chave Maps restrita). **`service_role`, chave Places, tokens do Sentry/EAS nunca entram no app nem no Git** — ficam em secrets de Edge Functions / EAS.
+- O site só conhece variáveis `VITE_*` (URL do Supabase, anon key, DSN do Sentry, chave Maps restrita). **`service_role`, chave Places, tokens do Sentry/EAS nunca entram no app nem no Git** — ficam em secrets de Edge Functions / EAS.
 - `.env*` no `.gitignore`; manter `.env.example` atualizado.
 - Tokens (convites, links de veterinário): aleatórios, armazenados só como hash, com expiração e revogação.
 - LGPD: coletar o mínimo; consentimento versionado (`user_consents`); exclusão de conta e dados pelo app; não enviar dados de saúde para Sentry (usar `beforeSend` para remover PII).
@@ -92,16 +93,13 @@ Imports com alias `@/` → `src/`.
 ## Comandos
 
 ```bash
-npx expo start --dev-client      # app em development build
-npm run lint && npm run typecheck
-npm test                         # Jest + RNTL
-supabase start                   # stack local
-supabase db reset                # reaplica migrations + seed local
-supabase test db                 # testes pgTAP de RLS
-npm run db:types                 # supabase gen types typescript --local > src/types/database.ts
-supabase functions serve         # Edge Functions locais
-maestro test .maestro/           # E2E
-eas build --profile development|preview|production
+npm install
+npm run dev              # site local
+npm run typecheck && npm run lint
+npm test                 # Vitest + Testing Library
+npm run build            # gera dist/ (com service worker e manifesto)
+npm run preview          # testa o build localmente
+supabase test db         # testes pgTAP de RLS
 ```
 
 ## Definição de pronto
@@ -110,13 +108,14 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
 
 ## Processo
 
-- Seguir a ordem das etapas em `docs/PLANO_APP_NATIVO.md` e pedir aprovação ao fim de cada etapa.
+- Seguir a ordem das etapas em `docs/PLANO_PWA.md` e pedir aprovação ao fim de cada etapa.
 - Antes de mudanças grandes, apresentar plano curto. Relatar com honestidade o que foi e o que não foi testado.
 
 ## Status atual
 
-- Plano do app nativo em 9 etapas **aprovado** (08/11/2026): `docs/PLANO_APP_NATIVO.md`. Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no Android; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
-- **Etapa 1 (projeto base + Design System) em andamento** na branch `etapa-1-base`.
+- Rota: **site instalável (PWA)**, plano em `docs/PLANO_PWA.md`. A rota antiga (app nativo) está em `docs/PLANO_APP_NATIVO.md`, só como histórico.
+- **Etapa 1 (base do site + instalação) pronta no código** na branch `etapa-1-base` (PR #2). Falta **publicar** (precisa de autorização do responsável) e ele testar no celular.
+- Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.
 - Supabase oficial: **"PET FRIENDS BACK SP"** (`eytigmsbliglsmbgrujq`, São Paulo). Nunca usar o pausado "PET FRIENDS BACK" (`bwvsalfevnwpiftkdvuc`) nem o "FIELD Project" (`jlqcgtyyjeevtkeehcdg`).
 - Segurança: checklist em `docs/SEGURANCA.md`.

@@ -32,13 +32,13 @@ Tons de apoio (vindos do protótipo):
 Botões em formato pílula (altura 48, ou 38 na versão pequena). Raio dos cartões: 22. Bloco de destaque com raio 26 e as **colinas** verde e laranja no rodapé. Campos com raio 14. Sombra verde bem suave. Área de toque mínima de 44.
 
 ## Componentes (`src/components/ui`)
-`Button` (accent · primary · ghost · soft · danger), `Card`, `Badge` (done · warn · info), `RoleTag` (Tutor/Convidado), `Avatar` (inicial com cor fixa por nome), `EmptyState`, `Hero` com `Hills`, `Segmented`, `Icon`. Os ícones são os desenhos de traço do protótipo, recriados com `react-native-svg`. Layout: `Screen` e `TopBar`.
+Em `src/components/ui.tsx`: `Button` (accent · primary · ghost · soft · danger), `Card`, `Badge` (done · warn · info), `RoleTag` (Tutor/Convidado), `Avatar`, `EmptyState`, `Hero` com `Hills`, `Segmented`, `IconButton`. Também: `Icon` (desenhos de traço do protótipo em SVG), `Sheet` (folha que sobe de baixo), `Toast`, `InstallSheet` e `InstallCard` (instalar na tela de início) e `Layout` (`AppLayout`, `TopBar`, `Page`).
 
 ## Navegação
 Abas: **Início · Pets · Caderneta · Lembretes · Locais**. O **Perfil** abre pelo botão no topo, à direita. Não há aba de "Comunidade".
 
 ## Ícone do app
-Letreiro "PET FRIENDS" branco sobre o verde `#16A34A` (`assets/brand/icon.png`, ícone adaptativo do Android e `play-store-icon-512.png`). Ele foi gerado a partir do PNG do logo; se houver o logo em vetor, troque por ele para ganhar nitidez.
+Letreiro "PET FRIENDS" branco sobre o verde `#16A34A` (`public/icons/`: 192, 512, maskable e apple-touch). Ele foi gerado a partir do PNG do logo; se houver o logo em vetor, troque por ele para ganhar nitidez.
 
 ## Fora do app (decisão de 08/11/2026)
 Modo escuro, som da marca, pet shops, restaurar backup e o tipo de registro "Cirurgia".
