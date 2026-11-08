@@ -16,7 +16,7 @@ Escopo aprovado (e somente ele):
 6. Locais (diretório veterinário): a pessoa informa o **CEP** e vê clínicas, hospitais e demais categorias veterinárias da região, com dados do **Google** em tempo real; contato externo por telefone/WhatsApp/site/mapa.
 7. Linha do tempo e **caderneta em PDF** (gerada no celular, com espaço para assinatura e carimbo/CRMV nas vacinas). O link seguro para veterinário fica **adiado** (decisão de 08/11/2026).
 
-Decisões do responsável (08/11/2026): **nenhum item extra do protótipo** entra (sem pet shops, som da marca, modo escuro, restaurar backup, tipo "Cirurgia"). O seletor "Registrando como" do protótipo **não existe** no app: cada pessoa entra com a própria conta, e quem aceita um convite é registrado como **"Convidado"**.
+Decisões do responsável (08/11/2026): **nenhum item extra do protótipo** entra (sem pet shops, modo escuro, restaurar backup, tipo "Cirurgia"). **Atualização 09/11/2026 (pedido do responsável):** entram os **sons** de notificação escolhidos pela pessoa (latido, miado, passarinho ou "plim") e a **voz "Pet Friends" ao abrir o app**, que pode ser desligada. Toda informação cadastrada gera aviso com o nome do pet; detalhes na Etapa 6 de `docs/PLANO_APP_NATIVO.md`. O seletor "Registrando como" do protótipo **não existe** no app: cada pessoa entra com a própria conta, e quem aceita um convite é registrado como **"Convidado"**.
 
 ## Proibido (fora do escopo — não implementar, nem "preparar terreno")
 

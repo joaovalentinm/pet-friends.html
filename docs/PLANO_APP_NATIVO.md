@@ -53,12 +53,17 @@
 - O tutor pode mudar a permissão ou remover a pessoa.
 - **Teste:** no seu celular e em um segundo aparelho (de alguém da família), convidar, aceitar e ver o cuidado marcado por um aparecer no outro.
 
-### 6. Notificações push
-- **Lembretes** de saúde e de rotina no horário.
-- **Aviso à família** quando alguém registra um cuidado (com opção de desligar no Perfil).
-- **Cuidado atrasado:** avisa se um horário passou de 30 minutos sem registro.
-- Um agendador no servidor (Supabase) checa os horários e envia pelo serviço do Expo.
-- **Teste:** criar um lembrete para daqui a 2 minutos com o app fechado; marcar um cuidado no outro aparelho e receber o aviso.
+### 6. Notificações (com sons escolhidos pela pessoa)
+Requisitos do responsável (09/11/2026): **toda informação cadastrada gera aviso**, sempre com o **nome do pet**.
+- **Horários da rotina:** "Hora da comida do Buddy 🍽️", "Hora do passeio do Buddy", "Hora do remédio do Buddy". Valem para comida, água, passeio, remédio, banho e higiene, e para os cuidados personalizados.
+- **Cuidado atrasado:** "O remédio do Buddy das 20:00 ainda não foi dado". Sai 30 minutos depois do horário e repete até alguém marcar como feito.
+- **Dia de algo:** vacina, vermífugo, antipulgas, consulta, exame e lembretes personalizados avisam **no dia** e também **na véspera**.
+- **Remédios e doses atrasados:** aviso diário enquanto não for registrado.
+- **Algo novo foi adicionado:** os **familiares** recebem push ("Lucas registrou a vacina V10 do Buddy"). Quem cadastrou vê a confirmação na própria tela, sem push, para não receber aviso de algo que acabou de fazer.
+- **Som da notificação escolhido pela pessoa** no Perfil: 🐶 latido, 🐱 miado, 🐦 passarinho ou 🔔 "plim". (O som de passarinho é só uma opção de toque; o app continua sendo para cães e gatos.)
+- **Ao abrir o app:** toca a voz dizendo **"Pet Friends"**. Pode ser desligado no Perfil e respeita o modo silencioso do celular.
+- Técnica: sons embutidos no app (plugin do `expo-notifications`). No Android, cada som exige um canal de notificação próprio. Avisos locais agendados no celular + push do servidor (Supabase + serviço de push do Expo) para a família. O áudio de abertura usa `expo-audio`, do próprio Expo.
+- **Teste:** escolher o som de latido, criar um horário para daqui a 2 minutos com o app fechado e ouvir o latido com "Hora da comida do Buddy". Marcar um cuidado no outro celular e receber o aviso da família.
 
 ### 7. Caderneta em PDF
 - Gerada **no próprio celular**, no layout do protótipo: identificação, vacinas com **espaço para assinatura e carimbo (CRMV)** em cada linha, histórico, peso, cirurgias e anexos.
