@@ -18,6 +18,8 @@ Escopo aprovado (e somente ele):
 
 Decisões do responsável (08/11/2026): **nenhum item extra do protótipo** entra (sem pet shops, modo escuro, restaurar backup, tipo "Cirurgia"). **Atualização 09/11/2026 (pedido do responsável):** entram os **sons** de notificação escolhidos pela pessoa (latido, miado, passarinho ou "plim") e a **voz "Pet Friends" ao abrir o app**, que pode ser desligada. Toda informação cadastrada gera aviso com o nome do pet; detalhes na Etapa 6 de `docs/PLANO_APP_NATIVO.md`. O seletor "Registrando como" do protótipo **não existe** no app: cada pessoa entra com a própria conta, e quem aceita um convite é registrado como **"Convidado"**.
 
+> ⚠️ **MUDANÇA DE ROTA (09/11/2026):** o produto passa a ser um **site instalável (PWA)**, sem Play Store e sem App Store. A proposta de plano e a troca de stack estão em `docs/PLANO_PWA.md`, **aguardando aprovação**. Até a aprovação, não programar a nova rota.
+
 ## Proibido (fora do escopo — não implementar, nem "preparar terreno")
 
 Pagamentos, assinaturas, plano Premium · comunidade/rede social · GPS/rastreamento de animais · marketplace · painel de parceiros · agendamento próprio · qualquer funcionalidade não listada acima. Na dúvida, **pergunte antes**.

@@ -1,4 +1,8 @@
-# Pet Friends: plano do app nativo (Android primeiro)
+# Pet Friends: plano do app
+
+> ⚠️ **MUDANÇA DE ROTA (09/11/2026, decisão do responsável):** o Pet Friends deixa de ser app de loja. Vira um **site instalável no celular (PWA)**: sem Play Store e sem App Store. A pessoa abre o link e coloca o app na tela de início seguindo a tela "Instalar o app". O plano abaixo descreve a rota antiga (app nativo). A **proposta da nova rota** está em `docs/PLANO_PWA.md`, aguardando aprovação.
+
+# (Rota antiga) Plano do app nativo (Android primeiro)
 
 > Status: **aprovado** em 08/11/2026 · Etapa 1 concluída no código; aguarda teste no celular (precisa da conta Expo)
 > Referências: `CLAUDE.md` (fonte da verdade), protótipo `pet-friends.html` (visual, telas, textos e fluxos), logo oficial (`assets/brand/`).
