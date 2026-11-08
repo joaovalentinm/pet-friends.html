@@ -59,9 +59,10 @@ Requisitos do responsável (09/11/2026): **toda informação cadastrada gera avi
 - **Cuidado atrasado:** "O remédio do Buddy das 20:00 ainda não foi dado". Sai 30 minutos depois do horário e repete até alguém marcar como feito.
 - **Dia de algo:** vacina, vermífugo, antipulgas, consulta, exame e lembretes personalizados avisam **no dia** e também **na véspera**.
 - **Remédios e doses atrasados:** aviso diário enquanto não for registrado.
-- **Algo novo foi adicionado:** os **familiares** recebem push ("Lucas registrou a vacina V10 do Buddy"). Quem cadastrou vê a confirmação na própria tela, sem push, para não receber aviso de algo que acabou de fazer.
+- **Algo novo foi adicionado:** **todos** recebem aviso, inclusive quem cadastrou (decisão de 09/11/2026). Exemplo: "Vacina V10 do Buddy registrada por Lucas".
 - **Som da notificação escolhido pela pessoa** no Perfil: 🐶 latido, 🐱 miado, 🐦 passarinho ou 🔔 "plim". (O som de passarinho é só uma opção de toque; o app continua sendo para cães e gatos.)
-- **Ao abrir o app:** toca a voz dizendo **"Pet Friends"**. Pode ser desligado no Perfil e respeita o modo silencioso do celular.
+- **Ao abrir o app:** toca a voz dizendo **"Pet Friends"** (voz sintética). Pode ser desligado no Perfil e respeita o modo silencioso do celular.
+- **Origem dos sons:** latido, miado, passarinho e "plim" vêm de bancos de sons livres (CC0 ou licença que permita uso em app). Cada arquivo tem a fonte e a licença registradas em `assets/sounds/CREDITOS.md`.
 - Técnica: sons embutidos no app (plugin do `expo-notifications`). No Android, cada som exige um canal de notificação próprio. Avisos locais agendados no celular + push do servidor (Supabase + serviço de push do Expo) para a família. O áudio de abertura usa `expo-audio`, do próprio Expo.
 - **Teste:** escolher o som de latido, criar um horário para daqui a 2 minutos com o app fechado e ouvir o latido com "Hora da comida do Buddy". Marcar um cuidado no outro celular e receber o aviso da família.
 
@@ -96,6 +97,12 @@ Requisitos do responsável (09/11/2026): **toda informação cadastrada gera avi
 | Endereço para a Política de Privacidade | Exigência do Google | Etapa 8 |
 
 ---
+
+## Propostas aguardando aprovação (09/11/2026)
+
+- **Calendário anual de vacinas** dentro da Caderneta (aplicadas, próximas e sugestões por espécie e idade, sempre com "confirme com o veterinário"). Fica na Etapa 4.
+- **Campanhas de vacinação**, cadastradas pela equipe a partir de fontes oficiais (Prefeitura de Nova Iguaçu e cidades vizinhas), cada uma com o link da fonte. Aparecem em Locais só quando houver campanha ativa na cidade do CEP, e geram aviso (Etapa 6).
+- **APK fora da loja:** página de download no domínio próprio, assinado com a mesma chave do app. Ver a resposta de 09/11/2026 na conversa.
 
 ## Decisões tomadas (08/11/2026)
 
