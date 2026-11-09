@@ -120,6 +120,9 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
   - Etapa 3: login com e-mail e senha, esqueci a senha e nova senha. Google pronto no código, mas desligado (`VITE_GOOGLE_LOGIN_ENABLED=false`) até configurar.
 - **Pendências do responsável no painel do Supabase:** (1) Authentication > URL Configuration: Site URL `https://petfriends.wearefield.io` e o mesmo em Redirect URLs; (2) SMTP próprio, porque o e-mail padrão só envia para membros da equipe do Supabase; (3) Google OAuth.
 - Tabelas de saúde, cuidados, lembretes e convites entram nas Etapas 4 e 5.
+- **Métricas de uso (09/11/2026, pedido do responsável):** `public.app_usage` guarda só minutos por dia, via `track_usage`, com limite de 2 min por chamada. O **Painel** (`/#/painel`) é só para quem está em `private.admins` (a conta do responsável). `admin_stats()` devolve apenas totais. O advisor avisa sobre `is_admin`/`admin_stats` serem SECURITY DEFINER: é intencional, porque a checagem de admin fica dentro das funções.
+- Ícone do app = logo oficial completo sobre o creme `#FFF1D7` (`public/icons/`).
+- Login com Google: código pronto; falta o responsável criar o OAuth Client no Google Cloud e ativar o provider no Supabase. Depois, `VITE_GOOGLE_LOGIN_ENABLED=true` e publicar.
 - Hostinger: conta `u702147711`, pedido `1010187851`. Os sites `wearefield.io` (WordPress) e `bio.wearefield.io` (bio) são de outros projetos: **não mexer**.
 - Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.
