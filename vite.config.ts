@@ -1,0 +1,38 @@
+/// <reference types="vitest/config" />
+import { fileURLToPath, URL } from 'node:url';
+import react from '@vitejs/plugin-react';
+import { defineConfig } from 'vite';
+import { VitePWA } from 'vite-plugin-pwa';
+
+export default defineConfig({
+  // Caminhos relativos: funciona no endereço de teste (subpasta) e no domínio próprio.
+  base: './',
+  plugins: [
+    react(),
+    VitePWA({
+      registerType: 'autoUpdate',
+      injectRegister: false, // registrado em src/pwa/update.ts (atualiza sozinho)
+      includeAssets: ['icons/apple-touch-icon-v2.png', 'logo.png'],
+      manifest: {
+        name: 'Pet Friends',
+        short_name: 'Pet Friends',
+        description: 'Casa do seu melhor amigo. Saúde, cuidados e rotina do seu pet em um só lugar.',
+        lang: 'pt-BR',
+        start_url: './',
+        scope: './',
+        display: 'standalone',
+        orientation: 'portrait',
+        background_color: '#FFF1D7',
+        theme_color: '#16A34A',
+        icons: [
+          { src: 'icons/icon-192-v2.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512-v2.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/icon-maskable-512-v2.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+        ],
+      },
+      workbox: { globPatterns: ['**/*.{js,css,html,png,svg,woff2}'], cleanupOutdatedCaches: true, clientsClaim: true, skipWaiting: true },
+    }),
+  ],
+  resolve: { alias: { '@': fileURLToPath(new URL('./src', import.meta.url)) } },
+  test: { environment: 'jsdom', setupFiles: ['./src/test/setup.ts'], globals: true, css: false },
+});
