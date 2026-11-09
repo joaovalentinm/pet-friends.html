@@ -24,12 +24,12 @@ describe('mensagens de erro em português', () => {
 });
 
 describe('tela Entrar', () => {
-  it('mostra e-mail, senha, esqueci a senha, Google e criar conta', () => {
+  it('mostra e-mail, senha, esqueci a senha e criar conta (sem Google)', () => {
     render(<MemoryRouter><Login /></MemoryRouter>);
     expect(screen.getByLabelText('E-mail')).toBeInTheDocument();
     expect(screen.getByLabelText('Senha')).toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Esqueci minha senha' })).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /Continuar com Google/ })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /Google/ })).not.toBeInTheDocument();
     expect(screen.getByRole('link', { name: 'Criar conta' })).toBeInTheDocument();
   });
   it('avisa quando os campos estão vazios', async () => {

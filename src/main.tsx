@@ -30,7 +30,7 @@ import { startAuth, useAuth } from '@/stores/auth';
 import { startAutoUpdate } from '@/pwa/update';
 
 /**
- * Os links de e-mail do Supabase (confirmar conta, nova senha, Google) voltam com
+ * Os links de e-mail do Supabase (confirmar conta, nova senha) voltam com
  * "#access_token=..." ou "#error=..." no endereço. Como as rotas usam "#", tratamos
  * isso ANTES de montar as rotas e depois limpamos o endereço.
  */

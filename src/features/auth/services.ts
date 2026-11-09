@@ -49,9 +49,6 @@ export async function signOut() {
   return supabase.auth.signOut();
 }
 
-export async function signInWithGoogle() {
-  return supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: siteUrl() } });
-}
 
 /** Grava o aceite dos Termos e da Política (LGPD) se ainda não estiver registrado. */
 export async function ensureConsents(userId: string, version: string) {

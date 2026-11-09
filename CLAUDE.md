@@ -27,7 +27,7 @@ Pagamentos, assinaturas, plano Premium · comunidade/rede social · GPS/rastream
 ## Stack obrigatória (site instalável / PWA — aprovada em 09/11/2026)
 
 Site: **React 19 + Vite 8 + TypeScript strict** · **Tailwind CSS 3.4** (cores de `src/theme/palette.js`) · **React Router 7** (rotas com `#`, ex.: `/#/pets`) · **vite-plugin-pwa** (manifesto, ícones, service worker, instalação) · fonte Nunito local (`@fontsource/nunito`, só alfabeto latino) · React Hook Form · Zod · Zustand (estado de cliente) · TanStack Query (dados do servidor).
-Login: e-mail/senha + Google.
+Login: **somente e-mail e senha** (Google removido a pedido do responsável em 09/11/2026).
 Lançamento: Nova Iguaçu – Baixada Fluminense (RJ).
 Endereço: **https://petfriends.wearefield.io** (Hostinger, subdomínio do domínio do responsável; SSL vitalício, HTTPS forçado, CDN). Nomes livres caso queiram domínio próprio depois: `meupetfriends.com.br`, `petfriendsapp.com.br` (exigem CPF/CNPJ). O site usa caminhos relativos (`base: './'`). Como publicar: `docs/PUBLICACAO.md`.
 Backend: Supabase (Postgres, Auth, Storage, Realtime, Edge Functions) com RLS.
@@ -118,11 +118,12 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
   - Etapa 1: base do site e instalação.
   - Etapa 2: banco com RLS, migration `supabase/migrations/20261109010000_etapa2_base.sql`, testes `supabase/tests/rls_etapa2.sql`, pasta privada `pet-photos`.
   - Etapa 3: login com e-mail e senha, esqueci a senha e nova senha. Google pronto no código, mas desligado (`VITE_GOOGLE_LOGIN_ENABLED=false`) até configurar.
-- **Pendências do responsável no painel do Supabase:** (1) Authentication > URL Configuration: Site URL `https://petfriends.wearefield.io` e o mesmo em Redirect URLs; (2) SMTP próprio, porque o e-mail padrão só envia para membros da equipe do Supabase; (3) Google OAuth.
+- **Pendências do responsável no painel do Supabase:** (1) Authentication > URL Configuration: Site URL `https://petfriends.wearefield.io` e o mesmo em Redirect URLs; (2) SMTP próprio, porque o e-mail padrão só envia para membros da equipe do Supabase; 
 - Tabelas de saúde, cuidados, lembretes e convites entram nas Etapas 4 e 5.
 - **Métricas de uso (09/11/2026, pedido do responsável):** `public.app_usage` guarda só minutos por dia, via `track_usage`, com limite de 2 min por chamada. O **Painel** (`/#/painel`) é só para quem está em `private.admins` (a conta do responsável). `admin_stats()` devolve apenas totais. O advisor avisa sobre `is_admin`/`admin_stats` serem SECURITY DEFINER: é intencional, porque a checagem de admin fica dentro das funções.
 - Ícone do app = logo oficial completo sobre o creme `#FFF1D7` (`public/icons/`).
-- Login com Google: código pronto; falta o responsável criar o OAuth Client no Google Cloud e ativar o provider no Supabase. Depois, `VITE_GOOGLE_LOGIN_ENABLED=true` e publicar.
+- Login com Google: **removido** (09/11/2026).
+- **Painel: acesso exclusivo do responsável** (conta jpvalentinmmind7@gmail.com, única em `private.admins`). Nunca adicionar outras contas em `private.admins` sem pedido explícito dele. Contas de teste nunca podem ficar como admin.
 - Hostinger: conta `u702147711`, pedido `1010187851`. Os sites `wearefield.io` (WordPress) e `bio.wearefield.io` (bio) são de outros projetos: **não mexer**.
 - Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.
