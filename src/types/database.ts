@@ -41,6 +41,146 @@ export type Database = {
           },
         ]
       }
+      health_documents: {
+        Row: {
+          created_at: string
+          file_name: string
+          health_record_id: string
+          id: string
+          mime_type: string
+          pet_id: string
+          size_bytes: number
+          storage_path: string
+          uploaded_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          file_name: string
+          health_record_id: string
+          id?: string
+          mime_type: string
+          pet_id: string
+          size_bytes: number
+          storage_path: string
+          uploaded_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          file_name?: string
+          health_record_id?: string
+          id?: string
+          mime_type?: string
+          pet_id?: string
+          size_bytes?: number
+          storage_path?: string
+          uploaded_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_documents_health_record_id_fkey"
+            columns: ["health_record_id"]
+            isOneToOne: false
+            referencedRelation: "health_records"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_documents_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_documents_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      health_records: {
+        Row: {
+          application_form: string | null
+          created_at: string
+          created_by: string | null
+          crmv: string | null
+          id: string
+          lot: string | null
+          next_cancelled_at: string | null
+          next_done_at: string | null
+          next_due_on: string | null
+          notes: string | null
+          occurred_on: string
+          pet_id: string
+          title: string
+          type: Database["public"]["Enums"]["health_type"]
+          updated_at: string
+          updated_by: string | null
+          vet_name: string | null
+        }
+        Insert: {
+          application_form?: string | null
+          created_at?: string
+          created_by?: string | null
+          crmv?: string | null
+          id?: string
+          lot?: string | null
+          next_cancelled_at?: string | null
+          next_done_at?: string | null
+          next_due_on?: string | null
+          notes?: string | null
+          occurred_on: string
+          pet_id: string
+          title: string
+          type: Database["public"]["Enums"]["health_type"]
+          updated_at?: string
+          updated_by?: string | null
+          vet_name?: string | null
+        }
+        Update: {
+          application_form?: string | null
+          created_at?: string
+          created_by?: string | null
+          crmv?: string | null
+          id?: string
+          lot?: string | null
+          next_cancelled_at?: string | null
+          next_done_at?: string | null
+          next_due_on?: string | null
+          notes?: string | null
+          occurred_on?: string
+          pet_id?: string
+          title?: string
+          type?: Database["public"]["Enums"]["health_type"]
+          updated_at?: string
+          updated_by?: string | null
+          vet_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "health_records_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_records_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "health_records_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pet_members: {
         Row: {
           created_at: string
@@ -275,6 +415,13 @@ export type Database = {
       track_usage: { Args: { p_seconds: number }; Returns: undefined }
     }
     Enums: {
+      health_type:
+        | "vaccine"
+        | "dewormer"
+        | "flea_tick"
+        | "medication"
+        | "vet_visit"
+        | "exam"
       member_permission: "edit" | "view"
       member_role: "tutor" | "guest"
       pet_sex: "male" | "female" | "unknown"
@@ -298,6 +445,7 @@ export type Enums<T extends keyof DefaultSchema["Enums"]> = DefaultSchema["Enums
 export const Constants = {
   public: {
     Enums: {
+      health_type: ["vaccine", "dewormer", "flea_tick", "medication", "vet_visit", "exam"],
       member_permission: ["edit", "view"],
       member_role: ["tutor", "guest"],
       pet_sex: ["male", "female", "unknown"],

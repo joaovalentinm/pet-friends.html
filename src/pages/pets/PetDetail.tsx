@@ -6,6 +6,7 @@ import { Sheet } from '@/components/Sheet';
 import { toast } from '@/components/Toast';
 import { Button, Card, EmptyState, IconButton, RoleTag } from '@/components/ui';
 import { PetPhoto } from '@/features/pets/components/PetPhoto';
+import { HealthSection } from '@/features/health/components';
 import { useDeletePet, usePet, useWeights } from '@/features/pets/hooks';
 import { SEX_LABEL, SPECIES_LABEL } from '@/features/pets/services';
 import { t } from '@/i18n/strings';
@@ -113,9 +114,7 @@ export default function PetDetail() {
           )}
         </Card>
 
-        <Card className="bg-surfaceAlt shadow-none">
-          <p className="text-small text-textMuted">{s.comingNext}</p>
-        </Card>
+        <HealthSection petId={pet.id} canEdit={pet.canEdit} />
 
         {pet.canEdit ? <Link to={`/pets/${pet.id}/editar`} className="flex min-h-[48px] items-center justify-center rounded-full bg-accent font-extrabold text-onAccent">{s.edit}</Link> : null}
         {pet.myRole === 'tutor' ? <Button label={s.delete(pet.name)} variant="danger" block onClick={() => setConfirm(true)} /> : null}

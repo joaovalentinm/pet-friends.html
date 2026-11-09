@@ -24,6 +24,7 @@ import Home from '@/pages/Home';
 import Pets from '@/pages/Pets';
 import PetDetail from '@/pages/pets/PetDetail';
 import PetForm from '@/pages/pets/PetForm';
+import HealthForm from '@/pages/health/HealthForm';
 import Places from '@/pages/Places';
 import Privacy from '@/pages/Privacy';
 import Profile from '@/pages/Profile';
@@ -87,6 +88,8 @@ async function main() {
     { path: '/pets/novo', element: app(<PetForm />) },
     { path: '/pets/:petId', element: app(<PetDetail />) },
     { path: '/pets/:petId/editar', element: app(<PetForm />) },
+    { path: '/pets/:petId/saude/novo', element: app(<HealthForm />) },
+    { path: '/pets/:petId/saude/:recordId', element: app(<HealthForm />) },
     { path: '*', element: app(<AppLayout />) },
   ]);
 

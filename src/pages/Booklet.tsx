@@ -3,11 +3,16 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { Page, TopBar } from '@/components/Layout';
 import { Card, EmptyState } from '@/components/ui';
+import { Icon } from '@/components/Icon';
+import { CORE_VACCINES, HEALTH, type HealthType } from '@/features/health/constants';
+import { RecordRow } from '@/features/health/components';
+import { useRecords } from '@/features/health/hooks';
+import { isPending } from '@/features/health/services';
 import { PetPhoto } from '@/features/pets/components/PetPhoto';
 import { usePets } from '@/features/pets/hooks';
 import { SEX_LABEL, SPECIES_LABEL } from '@/features/pets/services';
 import { t } from '@/i18n/strings';
-import { ageText, dateShort, kg } from '@/utils/format';
+import { ageText, dateShort, kg, todayIso } from '@/utils/format';
 
 function Row({ label, value }: { label: string; value: string | null | undefined }) {
   return (
@@ -23,6 +28,20 @@ export default function Booklet() {
   const { data: pets, isLoading } = usePets();
   const [selected, setSelected] = useState<string | null>(null);
   const pet = pets?.find((p) => p.id === selected) ?? pets?.[0];
+  const { data: records } = useRecords(pet?.id);
+  const byType = (type: HealthType) => (records ?? []).filter((r) => r.type === type);
+  const today = todayIso();
+  const vaccineStatus = pet
+    ? CORE_VACCINES[pet.species].map((v) => {
+        const r = byType('vaccine').find((x) => v.match.test(x.title));
+        let text: string = t.booklet.notRegistered;
+        let tone = 'warn';
+        if (r && isPending(r) && r.next_due_on && r.next_due_on < today) text = `${t.booklet.lateSince} ${dateShort(r.next_due_on)}`;
+        else if (r && isPending(r) && r.next_due_on) { text = `${t.booklet.okUntil} ${dateShort(r.next_due_on)}`; tone = 'done'; }
+        else if (r) { text = `${t.booklet.appliedOn} ${dateShort(r.occurred_on)}`; tone = 'info'; }
+        return { ...v, record: r, text, tone };
+      })
+    : [];
   return (
     <>
       <TopBar title={t.booklet.title} />
@@ -66,8 +85,45 @@ export default function Booklet() {
                 {pet.canEdit ? <Link to={`/pets/${pet.id}/editar`} className="mt-3 inline-block text-small font-extrabold text-primary">{t.petDetail.edit}</Link> : null}
               </Card>
             </section>
+            <section>
+              <h2 className="mb-[10px] text-title font-black text-heading">{t.booklet.section2}</h2>
+              <Card>
+                <ul className="flex flex-col gap-3">
+                  {vaccineStatus.map((v) => (
+                    <li key={v.label} className="flex items-center justify-between gap-2">
+                      <span><b className="block">{v.label}</b><span className="text-tiny text-textMuted">{v.tag}</span></span>
+                      {v.record || !pet.canEdit ? (
+                        <span className={`max-w-[58%] rounded-full px-[10px] py-1 text-right text-tiny font-extrabold ${v.tone === 'done' ? 'bg-doneBg text-doneInk' : v.tone === 'info' ? 'bg-infoBg text-heading' : 'bg-warnBg text-warnInk'}`}>{v.text}</span>
+                      ) : (
+                        <Link to={`/pets/${pet.id}/saude/novo?tipo=vaccine&nome=${encodeURIComponent(v.suggestion)}`} className="inline-flex min-h-[38px] items-center gap-1 rounded-full bg-surfaceAlt px-3 text-small font-extrabold text-heading"><Icon name="plus" size={16} />{t.health.add}</Link>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+                <p className="mt-3 text-tiny text-textMuted">{t.booklet.vaccineNote}</p>
+              </Card>
+              <div className="mt-3 flex flex-col gap-[10px]">
+                {byType('vaccine').map((r) => <RecordRow key={r.id} record={r} petId={pet.id} />)}
+              </div>
+            </section>
+            <section>
+              <h2 className="mb-[10px] text-title font-black text-heading">{t.booklet.section3}</h2>
+              {(['dewormer', 'flea_tick', 'vet_visit', 'exam', 'medication'] as const).map((type) => (
+                <div key={type} className="mb-4">
+                  <div className="mb-2 flex items-center justify-between">
+                    <h3 className="font-black text-heading">{HEALTH[type].plural}</h3>
+                    {pet.canEdit ? <Link to={`/pets/${pet.id}/saude/novo?tipo=${type}`} className="inline-flex min-h-[34px] items-center gap-1 rounded-full bg-surfaceAlt px-3 text-small font-extrabold text-heading"><Icon name="plus" size={16} />{t.health.add}</Link> : null}
+                  </div>
+                  {byType(type).length ? (
+                    <div className="flex flex-col gap-[10px]">{byType(type).map((r) => <RecordRow key={r.id} record={r} petId={pet.id} />)}</div>
+                  ) : (
+                    <p className="text-small text-textMuted">{t.booklet.noneOf(HEALTH[type].plural.toLowerCase())}</p>
+                  )}
+                </div>
+              ))}
+            </section>
             <Card className="bg-surfaceAlt shadow-none">
-              <p className="text-small text-textMuted">{t.booklet.comingNext}</p>
+              <p className="text-small text-textMuted">{t.booklet.pdfSoon}</p>
             </Card>
           </>
         )}
