@@ -1,6 +1,6 @@
 # Pet Friends: plano do site instalável (PWA)
 
-> Status: **aprovado** em 09/11/2026 · Etapa 1 **publicada** em https://petfriends.wearefield.io; aguarda teste no celular
+> Status: **aprovado** em 09/11/2026 · Etapas 1, 2 e 3 **publicadas** em https://petfriends.wearefield.io · Próxima: Etapa 4 (telas com dados reais)
 > Decisão do responsável: sem Play Store e sem App Store. O Pet Friends é um site que a pessoa abre pelo link e instala na tela de início do celular.
 
 ## Proposta de tecnologia (troca de stack, precisa de aprovação)

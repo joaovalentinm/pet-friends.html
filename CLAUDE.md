@@ -114,7 +114,12 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
 ## Status atual
 
 - Rota: **site instalável (PWA)**, plano em `docs/PLANO_PWA.md`. A rota antiga (app nativo) está em `docs/PLANO_APP_NATIVO.md`, só como histórico.
-- **Etapa 1 (base do site + instalação) publicada** em https://petfriends.wearefield.io (09/11/2026), branch `etapa-1-base` (PR #2). Aguardando o responsável testar no celular e aprovar.
+- **Etapas 1, 2 e 3 publicadas** em https://petfriends.wearefield.io (09/11/2026), branch `etapa-1-base` (PR #2):
+  - Etapa 1: base do site e instalação.
+  - Etapa 2: banco com RLS, migration `supabase/migrations/20261109010000_etapa2_base.sql`, testes `supabase/tests/rls_etapa2.sql`, pasta privada `pet-photos`.
+  - Etapa 3: login com e-mail e senha, esqueci a senha e nova senha. Google pronto no código, mas desligado (`VITE_GOOGLE_LOGIN_ENABLED=false`) até configurar.
+- **Pendências do responsável no painel do Supabase:** (1) Authentication > URL Configuration: Site URL `https://petfriends.wearefield.io` e o mesmo em Redirect URLs; (2) SMTP próprio, porque o e-mail padrão só envia para membros da equipe do Supabase; (3) Google OAuth.
+- Tabelas de saúde, cuidados, lembretes e convites entram nas Etapas 4 e 5.
 - Hostinger: conta `u702147711`, pedido `1010187851`. Os sites `wearefield.io` (WordPress) e `bio.wearefield.io` (bio) são de outros projetos: **não mexer**.
 - Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.

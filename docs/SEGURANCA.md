@@ -1,7 +1,7 @@
 # Pet Friends — Segurança e Privacidade dos Dados
 
 > Checklist de segurança para os dados dos usuários (e-mail, senha, fotos e dados de saúde do pet).
-> Status: **nada implementado ainda.** Projeto oficial criado em São Paulo, ainda vazio (ver §0).
+> Status (09/11/2026): **base implementada.** Inclui RLS em todas as tabelas, funções de permissão no schema `private`, pasta privada de fotos, perfis criados no cadastro e consentimento LGPD gravado. Testes de permissão passando e verificador de segurança do Supabase sem alertas. **Pendente:** SMTP próprio, URL do site no Auth, CAPTCHA, senhas vazadas (plano Pro), exclusão de conta e exportação (Etapa 8).
 > Atualizado em 08/11/2026.
 
 Legenda: 🟢 o Supabase já faz · 🔧 configurar no painel · 💻 desenvolver (código/SQL) · 👤 depende de você
