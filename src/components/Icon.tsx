@@ -33,6 +33,12 @@ const PATHS = {
   kebab: '<circle cx="12" cy="6" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="12" r="1.3" fill="currentColor" stroke="none"/><circle cx="12" cy="18" r="1.3" fill="currentColor" stroke="none"/>',
   compass: '<circle cx="12" cy="12" r="8.5"/><path d="m15.5 8.5-2 5-5 2 2-5Z"/>',
   phoneDl: '<rect x="6.5" y="2.5" width="11" height="19" rx="2.5"/><path d="M12 7.5v6M9.5 11l2.5 2.5 2.5-2.5M10.5 18.5h3"/>',
+  food: '<path d="M3 13.5h18l-1.6 5.2a2 2 0 0 1-1.9 1.3H6.5a2 2 0 0 1-1.9-1.3Z"/><circle cx="8" cy="10.6" r="1.6" fill="currentColor" stroke="none"/><circle cx="12" cy="9.6" r="1.6" fill="currentColor" stroke="none"/><circle cx="16" cy="10.6" r="1.6" fill="currentColor" stroke="none"/><circle cx="10" cy="6.9" r="1.4" fill="currentColor" stroke="none"/><circle cx="14" cy="6.9" r="1.4" fill="currentColor" stroke="none"/>',
+  drop: '<path d="M12 3.5s6 6.3 6 10.5a6 6 0 0 1-12 0c0-4.2 6-10.5 6-10.5Z"/>',
+  walk: '<path d="M5.5 11.2c0-.7.7-1.2 1.5-1.2H14.8L16.1 7.6C16.4 6.6 17.2 6 18.2 6.1L19.3 6.5 21 7.4C21.5 7.7 21.5 8.6 21 8.9L19.6 9.5 18.5 10.1l-.4 3.1c-.4 1.1-1.2 1.4-2 1.4H8c-1.5 0-2.5-1-2.5-2.6Z" fill="currentColor" stroke="none"/><path d="M5.9 11C4.5 10.5 3.8 9.5 3.6 8.3" stroke-width="1.8"/><path d="M7.8 14 7.2 20M9.6 14l.8 6M15.2 14l-.6 6M16.8 13.6 18 20" stroke-width="2.2"/><path d="M17.3 8.3C13 3.8 8 2.6 5 2.8" stroke-width="1.6"/><circle cx="3.9" cy="2.9" r="1.1" stroke-width="1.6"/>',
+  shower: '<path d="M5 21V7a3 3 0 0 1 3-3h2a3 3 0 0 1 3 3v1"/><path d="M9.5 11.5a4 4 0 0 1 8 0Z"/><path d="M10.5 14.5v.5M13.5 14.5v.5M16.5 14.5v.5M12 17.5v.5M15 17.5v.5M13.5 20.5v.5"/>',
+  star: '<path d="m12 3.5 2.6 5.4 5.9.8-4.3 4.1 1 5.8-5.2-2.8-5.2 2.8 1-5.8-4.3-4.1 5.9-.8Z"/>',
+  hygiene: '<path d="M3.5 2.5h4.5a2 2 0 0 1 2 2v.5a2 2 0 0 1-2 2H3.5a2.25 2.25 0 0 1 0-4.5Z"/> <path d="M10 3.6h1.4v2.3H10"/> <path d="M4.5 7 4 10.5"/> <path d="M12.7 6.9l.8.9M14.6 6.1l.8.9"/> <g transform="translate(8.8 8.9) scale(0.63)" stroke-width="2.7"> <path d="M11.25 16.25h1.5L12 17z"/><path d="M16 14v.5"/><path d="M8 14v.5"/> <path d="M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444a11.702 11.702 0 0 0-.493-3.309"/> <path d="M8.5 8.5c-.384 1.05-1.083 2.028-2.344 2.5-1.931.722-3.576-.297-3.656-1-.113-.994 1.177-6.53 4-7 1.923-.321 3.651.845 3.651 2.235A7.497 7.497 0 0 1 14 5.277c0-1.39 1.844-2.598 3.767-2.277 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.5"/> </g>',
 } as const;
 
 export type IconName = keyof typeof PATHS;

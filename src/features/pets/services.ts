@@ -5,7 +5,8 @@ import type { PetInput } from './schemas';
 
 export type Pet = Tables<'pets'>;
 export type PetWeight = Tables<'pet_weights'>;
-export type PetWithWeight = Pet & { lastWeight: number | null; myRole: 'tutor' | 'guest'; canEdit: boolean };
+export type PetMember = { user_id: string; role: 'tutor' | 'guest' };
+export type PetWithWeight = Pet & { lastWeight: number | null; myRole: 'tutor' | 'guest'; canEdit: boolean; members: PetMember[] };
 
 const blankToNull = (v: string | undefined) => (v && v.trim() ? v.trim() : null);
 
@@ -37,7 +38,7 @@ export async function listPets(userId: string): Promise<PetWithWeight[]> {
     const { pet_weights, pet_members, ...pet } = row;
     const last = [...(pet_weights ?? [])].sort((a, b) => b.measured_on.localeCompare(a.measured_on))[0];
     const me = (pet_members ?? []).find((m) => m.user_id === userId);
-    return { ...pet, lastWeight: last ? Number(last.weight_kg) : null, myRole: me?.role ?? 'guest', canEdit: me?.permission === 'edit' };
+    return { ...pet, lastWeight: last ? Number(last.weight_kg) : null, myRole: me?.role ?? 'guest', canEdit: me?.permission === 'edit', members: (pet_members ?? []).map((m) => ({ user_id: m.user_id, role: m.role })) };
   });
 }
 

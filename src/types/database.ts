@@ -41,6 +41,124 @@ export type Database = {
           },
         ]
       }
+      care_logs: {
+        Row: {
+          done_at: string
+          done_by: string | null
+          id: string
+          notes: string | null
+          pet_id: string
+          routine_id: string | null
+          slot_date: string | null
+          slot_time: string | null
+          title: string
+          type: Database["public"]["Enums"]["care_type"]
+        }
+        Insert: {
+          done_at?: string
+          done_by?: string | null
+          id?: string
+          notes?: string | null
+          pet_id: string
+          routine_id?: string | null
+          slot_date?: string | null
+          slot_time?: string | null
+          title: string
+          type: Database["public"]["Enums"]["care_type"]
+        }
+        Update: {
+          done_at?: string
+          done_by?: string | null
+          id?: string
+          notes?: string | null
+          pet_id?: string
+          routine_id?: string | null
+          slot_date?: string | null
+          slot_time?: string | null
+          title?: string
+          type?: Database["public"]["Enums"]["care_type"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "care_logs_done_by_fkey"
+            columns: ["done_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "care_logs_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "care_logs_routine_id_fkey"
+            columns: ["routine_id"]
+            isOneToOne: false
+            referencedRelation: "care_routines"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      care_routines: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string | null
+          days: number[]
+          id: string
+          pet_id: string
+          times: string[]
+          timezone: string
+          title: string
+          type: Database["public"]["Enums"]["care_type"]
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          days?: number[]
+          id?: string
+          pet_id: string
+          times: string[]
+          timezone?: string
+          title: string
+          type: Database["public"]["Enums"]["care_type"]
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          days?: number[]
+          id?: string
+          pet_id?: string
+          times?: string[]
+          timezone?: string
+          title?: string
+          type?: Database["public"]["Enums"]["care_type"]
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "care_routines_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "care_routines_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       health_documents: {
         Row: {
           created_at: string
@@ -415,6 +533,14 @@ export type Database = {
       track_usage: { Args: { p_seconds: number }; Returns: undefined }
     }
     Enums: {
+      care_type:
+        | "feeding"
+        | "water"
+        | "walk"
+        | "medication"
+        | "bath"
+        | "hygiene"
+        | "custom"
       health_type:
         | "vaccine"
         | "dewormer"
@@ -445,6 +571,7 @@ export type Enums<T extends keyof DefaultSchema["Enums"]> = DefaultSchema["Enums
 export const Constants = {
   public: {
     Enums: {
+      care_type: ["feeding", "water", "walk", "medication", "bath", "hygiene", "custom"],
       health_type: ["vaccine", "dewormer", "flea_tick", "medication", "vet_visit", "exam"],
       member_permission: ["edit", "view"],
       member_role: ["tutor", "guest"],

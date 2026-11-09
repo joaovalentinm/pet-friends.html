@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 import { Icon } from '@/components/Icon';
 import { Sheet } from '@/components/Sheet';
 import { toast } from '@/components/Toast';
-import { Button, Card, EmptyState, IconButton, RoleTag } from '@/components/ui';
+import { Button, Card, EmptyState, IconButton, RoleTag, Segmented } from '@/components/ui';
+import { RoutineSection } from '@/features/care/components';
 import { PetPhoto } from '@/features/pets/components/PetPhoto';
 import { HealthSection } from '@/features/health/components';
 import { useDeletePet, usePet, useWeights } from '@/features/pets/hooks';
@@ -31,6 +32,8 @@ export default function PetDetail() {
   const { data: weights } = useWeights(petId);
   const remove = useDeletePet();
   const [confirm, setConfirm] = useState(false);
+  const [params, setParams] = useSearchParams();
+  const tab = (['saude', 'rotina', 'peso'] as const).find((k) => k === params.get('aba')) ?? 'saude';
 
   const header = (
     <header className="sticky top-0 z-20 flex min-h-[60px] items-center gap-3 bg-background px-screen py-3 pt-[calc(12px+env(safe-area-inset-top))]">
@@ -98,23 +101,31 @@ export default function PetDetail() {
           </dl>
         </Card>
 
-        <Card>
-          <h3 className="mb-2 text-title font-black text-heading">{s.weightHistory}</h3>
-          {weights && weights.length ? (
-            <ul className="divide-y divide-line">
-              {weights.slice(0, 10).map((w) => (
-                <li key={w.id} className="flex justify-between py-2 text-small">
-                  <span className="text-textMuted">{dateShort(w.measured_on)}</span>
-                  <b className="text-heading">{kg(Number(w.weight_kg))}</b>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-small text-textMuted">{s.noWeights}</p>
-          )}
-        </Card>
-
-        <HealthSection petId={pet.id} canEdit={pet.canEdit} />
+        <Segmented
+          label={s.sectionsLabel}
+          options={[{ key: 'saude', label: s.sections.health }, { key: 'rotina', label: s.sections.routine }, { key: 'peso', label: s.sections.weight }] as const}
+          value={tab}
+          onChange={(k) => setParams({ aba: k }, { replace: true })}
+        />
+        {tab === 'saude' ? <HealthSection petId={pet.id} canEdit={pet.canEdit} /> : null}
+        {tab === 'rotina' ? <RoutineSection pet={pet} /> : null}
+        {tab === 'peso' ? (
+          <Card>
+            <h3 className="mb-2 text-title font-black text-heading">{s.weightHistory}</h3>
+            {weights && weights.length ? (
+              <ul className="divide-y divide-line">
+                {weights.slice(0, 10).map((w) => (
+                  <li key={w.id} className="flex justify-between py-2 text-small">
+                    <span className="text-textMuted">{dateShort(w.measured_on)}</span>
+                    <b className="text-heading">{kg(Number(w.weight_kg))}</b>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="text-small text-textMuted">{s.noWeights}</p>
+            )}
+          </Card>
+        ) : null}
 
         {pet.canEdit ? <Link to={`/pets/${pet.id}/editar`} className="flex min-h-[48px] items-center justify-center rounded-full bg-accent font-extrabold text-onAccent">{s.edit}</Link> : null}
         {pet.myRole === 'tutor' ? <Button label={s.delete(pet.name)} variant="danger" block onClick={() => setConfirm(true)} /> : null}

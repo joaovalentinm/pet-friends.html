@@ -8,6 +8,8 @@ import { Icon, type IconName } from './Icon';
 import { InstallSheet } from './InstallSheet';
 import { Toaster } from './Toast';
 import { IconButton } from './ui';
+import { useCareRealtime } from '@/features/care/hooks';
+import { useAuth } from '@/stores/auth';
 
 const logo = `${import.meta.env.BASE_URL}logo.png`;
 
@@ -22,6 +24,8 @@ const TABS: { to: string; label: string; icon: IconName }[] = [
 /** Moldura do app: coluna central (até 480px), barra de abas fixa e avisos. */
 export function AppLayout() {
   const { open, setOpen } = useInstallUi();
+  const signedIn = useAuth((st) => !!st.session);
+  useCareRealtime(signedIn);
   // Logo depois do login, explica como instalar (uma vez por aparelho).
   useEffect(() => {
     if (!shouldAutoShowInstall()) return;

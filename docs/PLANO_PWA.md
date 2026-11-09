@@ -1,6 +1,6 @@
 # Pet Friends: plano do site instalável (PWA)
 
-> Status: **aprovado** em 09/11/2026 · Etapas 1, 2 e 3 **publicadas** em https://petfriends.wearefield.io · Etapa 4 em andamento (pets e carteira de saúde prontos; faltam cuidados e Locais)
+> Status: **aprovado** em 09/11/2026 · Etapas 1, 2 e 3 **publicadas** em https://petfriends.wearefield.io · Etapa 4 em andamento (pets, carteira de saúde e cuidados prontos; faltam Locais e o calendário de vacinas)
 > Decisão do responsável: sem Play Store e sem App Store. O Pet Friends é um site que a pessoa abre pelo link e instala na tela de início do celular.
 
 ## Proposta de tecnologia (troca de stack, precisa de aprovação)
@@ -47,3 +47,11 @@ Play Console, conta de teste para o revisor do Google, regra dos 12 testadores p
 
 ## O que aproveitamos da Etapa 1
 Paleta, tokens, configuração do Tailwind, textos, ícones, logo e o desenho das telas. O código das telas em React Native é refeito em React web, um trabalho pequeno porque as telas ainda estão vazias.
+
+## Ideias em espera (não fazer antes de validar o app)
+Decisão do responsável em 09/11/2026: ficam para uma etapa futura, depois da validação com usuários, e só entram com aprovação formal da mudança de escopo (hoje estão na lista de proibidos).
+- Plano pago mensal (PIX e cartão recorrente por gateway brasileiro, liberação automática por webhook em Edge Function).
+- Descontos em lojas parceiras e rações (cadastro de parceiros e cupons).
+- Veterinários verificados pelo CRMV (conferência no cadastro do conselho antes do selo).
+- Pré-requisitos: CNPJ ou MEI, termos de uso com regras de cancelamento (CDC), política de privacidade revisada (LGPD).
+- Dá para construir na mesma estrutura atual (site + Supabase); não precisa de outro sistema.
