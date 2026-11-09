@@ -94,3 +94,18 @@ Observações:
 4. 💻 App: login/cadastro com sessão segura, upload de foto sem EXIF, links temporários.
 5. 💻 Edge Function `delete-account` + exportação de dados.
 6. 👤 🔧 Antes do beta público: SMTP próprio, CAPTCHA, plano Pro (senhas vazadas, backups, sem pausa), Google/Apple, política de privacidade.
+
+## 6. Proteção contra cópia (09/11/2026)
+
+**O que é possível:** todo site, e também todo app de loja, entrega ao celular o código das telas, que pode ser visto e copiado. O que não pode ser copiado é o que fica no servidor: os dados e as contas dos usuários, protegidos pelas regras de acesso (RLS). Uma cópia das telas não acessa nenhum dado de usuário da Pet Friends.
+
+| Medida | Situação |
+|---|---|
+| Chaves secretas fora do site (só a chave pública do Supabase vai ao navegador) | ✅ feito |
+| Dados protegidos por RLS: uma cópia do site não lê dados de ninguém | ✅ feito |
+| Código publicado minificado e sem source maps | ✅ feito (padrão do build) |
+| **Repositório do GitHub privado.** Hoje está **público**: qualquer pessoa vê o código-fonte completo | ⚠️ aguardando decisão do responsável |
+| CAPTCHA no cadastro e no login (contra robôs que criam contas em massa) | ⏳ pendente |
+| Registro da marca "Pet Friends" no INPI (verificar se o nome está livre na classe de apps/serviços para animais) | 👤 responsável |
+| Registro do software no INPI (opcional; o direito autoral do código já existe pela Lei 9.609/98) | 👤 responsável |
+| Termos de Uso proibindo cópia e uso indevido (versão completa na Etapa 8) | ⏳ pendente |
