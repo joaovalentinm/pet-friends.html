@@ -31,11 +31,17 @@ describe('detectPlatform', () => {
   it('WhatsApp = dentro de outro app', () =>
     expect(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0) WhatsApp/2.24', 5)).toBe('inapp'));
   it('Safari do iPhone', () =>
-    expect(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Version/18.0 Mobile Safari/604.1', 5)).toBe('ios'));
+    expect(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) Version/18.0 Mobile Safari/604.1', 5)).toBe('ios-safari'));
+  it('Chrome do iPhone', () =>
+    expect(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/130.0 Mobile/15E148 Safari/604.1', 5)).toBe('ios-chrome'));
   it('iPad que se apresenta como Mac', () =>
-    expect(detectPlatform('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Version/18.0 Safari/605.1.15', 5)).toBe('ios'));
+    expect(detectPlatform('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) Version/18.0 Safari/605.1.15', 5)).toBe('ios-safari'));
   it('Chrome do Android', () =>
-    expect(detectPlatform('Mozilla/5.0 (Linux; Android 14; SM-A546E) Chrome/130.0 Mobile Safari/537.36', 5)).toBe('android'));
+    expect(detectPlatform('Mozilla/5.0 (Linux; Android 14; SM-A546E) Chrome/130.0 Mobile Safari/537.36', 5)).toBe('android-chrome'));
+  it('Samsung Internet', () =>
+    expect(detectPlatform('Mozilla/5.0 (Linux; Android 14; SM-A546E) AppleWebKit/537.36 SamsungBrowser/26.0 Chrome/122.0 Mobile Safari/537.36', 5)).toBe('android-samsung'));
+  it('app do Google (Gmail/Google) conta como dentro de outro app', () =>
+    expect(detectPlatform('Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) GSA/330.0 Mobile/15E148 Safari/604.1', 5)).toBe('inapp'));
   it('computador', () =>
     expect(detectPlatform('Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/130.0 Safari/537.36', 0)).toBe('desktop'));
 });

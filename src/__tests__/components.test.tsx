@@ -45,12 +45,21 @@ describe('InstallSheet', () => {
     expect(screen.getByText('Abrir no navegador')).toBeInTheDocument();
   });
   it('no iPhone, mostra Adicionar à Tela de Início', () => {
-    render(<InstallSheet open onClose={() => {}} platform="ios" />);
+    render(<InstallSheet open onClose={() => {}} platform="ios-safari" />);
     expect(screen.getByText('Adicionar à Tela de Início')).toBeInTheDocument();
+  });
+  it('no Chrome do iPhone, manda tocar em compartilhar ao lado do endereço', () => {
+    render(<InstallSheet open onClose={() => {}} platform="ios-chrome" />);
+    expect(screen.getByText(/ao lado do endereço do site/)).toBeInTheDocument();
+    expect(screen.getByText(/só chegam quando o app está instalado/)).toBeInTheDocument();
+  });
+  it('no Samsung Internet, mostra Adicionar página a', () => {
+    render(<InstallSheet open onClose={() => {}} platform="android-samsung" />);
+    expect(screen.getByText('Adicionar página a')).toBeInTheDocument();
   });
   it('fecha pelo botão X', async () => {
     const onClose = vi.fn();
-    render(<InstallSheet open onClose={onClose} platform="android" />);
+    render(<InstallSheet open onClose={onClose} platform="android-chrome" />);
     await userEvent.click(screen.getByRole('button', { name: 'Fechar' }));
     expect(onClose).toHaveBeenCalled();
   });

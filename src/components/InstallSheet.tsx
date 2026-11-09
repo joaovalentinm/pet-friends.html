@@ -1,12 +1,14 @@
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 
 import { t } from '@/i18n/strings';
-import { detectPlatform, promptInstall, useInstallPrompt, type Platform } from '@/pwa/install';
+import { detectPlatform, dismissBanner, isBannerDismissed, isStandalone, promptInstall, useInstallPrompt, useJustInstalled, type Platform } from '@/pwa/install';
 import { Icon, type IconName } from './Icon';
 import { Sheet } from './Sheet';
+import { toast } from './Toast';
 import { Button } from './ui';
 
 const appIcon = `${import.meta.env.BASE_URL}icons/icon-192.png`;
+const s = t.install;
 
 function Key({ icon, label }: { icon?: IconName; label?: string }) {
   return (
@@ -30,9 +32,10 @@ function Steps({ items }: { items: ReactNode[] }) {
   );
 }
 
-const s = t.install;
+const finish = <>Pronto: o ícone do <b>Pet Friends</b> aparece na tela de início. Abra sempre por ele.</>;
 
-function content(platform: Platform) {
+/** Instruções para cada aparelho/navegador. */
+function content(platform: Platform): { why: string; steps: ReactNode[]; note?: string } {
   switch (platform) {
     case 'inapp':
       return {
@@ -43,39 +46,78 @@ function content(platform: Platform) {
           <>Lá, toque de novo em “Usar o app” e siga os passos.</>,
         ],
       };
-    case 'ios':
+    case 'ios-safari':
       return {
         why: s.iosWhy,
         steps: [
-          <>Toque em <Key icon="share" /> na barra do Safari.</>,
-          <>Escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />.</>,
-          <>Toque em “Adicionar”. Pronto: o ícone aparece na tela de início.</>,
+          <>Toque em <Key icon="share" label="Compartilhar" /> na barra do Safari. Se não aparecer, toque em <Key icon="dots" /> e depois em Compartilhar.</>,
+          <>Role a lista e escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />.</>,
+          <>Toque em “Adicionar”. {finish}</>,
         ],
+        note: s.iosNote,
       };
-    case 'android':
+    case 'ios-chrome':
+      return {
+        why: s.iosWhy,
+        steps: [
+          <>Toque em <Key icon="share" /> no alto da tela, ao lado do endereço do site.</>,
+          <>Role a lista e escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />.</>,
+          <>Toque em “Adicionar”. {finish}</>,
+        ],
+        note: s.iosNote,
+      };
+    case 'ios-other':
+      return {
+        why: s.iosOtherWhy,
+        steps: [
+          <>Toque em <Key icon="share" label="Compartilhar" /> no menu do navegador.</>,
+          <>Escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />. Se não houver essa opção, abra o site no Safari.</>,
+          <>Toque em “Adicionar”. {finish}</>,
+        ],
+        note: s.iosNote,
+      };
+    case 'android-chrome':
       return {
         why: s.androidWhy,
         steps: [
           <>Toque em <Key icon="kebab" /> no canto de cima do Chrome.</>,
           <>Escolha <Key icon="phoneDl" label="Instalar app" /> ou <Key icon="plusSq" label="Adicionar à tela inicial" />.</>,
-          <>Confirme em “Instalar”. O ícone aparece na tela de início.</>,
+          <>Confirme em “Instalar”. {finish}</>,
+        ],
+      };
+    case 'android-samsung':
+      return {
+        why: s.androidWhy,
+        steps: [
+          <>Toque no menu <Key label="☰" /> embaixo, à direita.</>,
+          <>Escolha <Key icon="plusSq" label="Adicionar página a" /> e depois “Tela inicial”.</>,
+          <>Confirme em “Adicionar”. {finish}</>,
+        ],
+      };
+    case 'android-other':
+      return {
+        why: s.androidWhy,
+        steps: [
+          <>Abra o menu do navegador <Key icon="kebab" />.</>,
+          <>Escolha <Key icon="phoneDl" label="Instalar" /> ou <Key icon="plusSq" label="Adicionar à tela inicial" />. Se não aparecer, abra o site no Chrome.</>,
+          <>Confirme. {finish}</>,
         ],
       };
     default:
       return {
         why: s.desktopWhy,
         steps: [
-          <>No navegador, toque no menu <Key icon="kebab" /> ou no ícone de instalar na barra de endereço.</>,
-          <>Escolha <Key icon="phoneDl" label="Instalar Pet Friends" />.</>,
-          <>Confirme. O app abre em uma janela própria.</>,
+          <>No celular, abra <b>petfriends.wearefield.io</b> no Chrome (Android) ou no Safari (iPhone).</>,
+          <>Toque em “Usar o app” e siga os passos do seu aparelho.</>,
+          <>No computador, você também pode usar o ícone de instalar na barra de endereço.</>,
         ],
       };
   }
 }
 
-/** Folha "Instalar o app": instruções conforme o aparelho (referência aprovada pelo responsável). */
+/** Folha "Instalar o app": instruções conforme o aparelho e o navegador. */
 export function InstallSheet({ open, onClose, platform = detectPlatform() }: { open: boolean; onClose: () => void; platform?: Platform }) {
-  const canPrompt = useInstallPrompt() !== null && platform !== 'inapp' && platform !== 'ios';
+  const canPrompt = useInstallPrompt() !== null && platform !== 'inapp' && !platform.startsWith('ios');
   const c = content(platform);
   return (
     <Sheet open={open} onClose={onClose} labelledBy="install-title">
@@ -92,11 +134,22 @@ export function InstallSheet({ open, onClose, platform = detectPlatform() }: { o
       <p className="mb-4 text-[15px] text-textMuted">{c.why}</p>
       {canPrompt ? (
         <div className="mb-[14px]">
-          <Button label={s.installNow} icon="phoneDl" block onClick={async () => { if (await promptInstall()) onClose(); }} />
+          <Button
+            label={s.installNow}
+            icon="phoneDl"
+            block
+            onClick={async () => {
+              if (await promptInstall()) {
+                toast(s.installing);
+                onClose();
+              }
+            }}
+          />
           <p className="mt-2 text-center text-tiny text-textMuted">{s.fallback}</p>
         </div>
       ) : null}
       <Steps items={c.steps} />
+      {c.note ? <p className="mt-3 rounded-lg bg-infoBg p-3 text-small font-semibold text-heading">{c.note}</p> : null}
     </Sheet>
   );
 }
@@ -112,5 +165,35 @@ export function InstallCard({ onOpen }: { onOpen: () => void }) {
       </span>
       <Icon name="chevR" size={20} className="text-textMuted" />
     </button>
+  );
+}
+
+/** Faixa verde no topo do Início: aparece até o app ser instalado (some 3 dias se fechada). */
+export function InstallBanner({ onOpen }: { onOpen: () => void }) {
+  const [hidden, setHidden] = useState(() => isStandalone() || isBannerDismissed());
+  const justInstalled = useJustInstalled();
+  if (hidden || justInstalled) return null;
+  return (
+    <div className="relative flex items-center gap-3 rounded-[20px] bg-primary p-[14px] text-onPrimary shadow-card">
+      <img src={appIcon} alt="" className="h-11 w-11 shrink-0 rounded-[12px] ring-2 ring-white/70" />
+      <div className="min-w-0 flex-1">
+        <b className="block leading-tight">{s.bannerTitle}</b>
+        <span className="text-tiny opacity-95">{s.bannerText}</span>
+      </div>
+      <button type="button" onClick={onOpen} className="min-h-[40px] shrink-0 rounded-full bg-white px-[14px] text-small font-extrabold text-heading">
+        {s.bannerButton}
+      </button>
+      <button
+        type="button"
+        aria-label={s.bannerClose}
+        onClick={() => {
+          dismissBanner();
+          setHidden(true);
+        }}
+        className="absolute -right-1 -top-1 grid h-7 w-7 place-items-center rounded-full bg-heading text-white"
+      >
+        <Icon name="x" size={14} />
+      </button>
+    </div>
   );
 }

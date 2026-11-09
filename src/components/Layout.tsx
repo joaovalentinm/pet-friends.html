@@ -1,8 +1,11 @@
-import type { ReactNode } from 'react';
+import { useEffect, type ReactNode } from 'react';
 import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 import { t } from '@/i18n/strings';
+import { markInstallAutoShown, shouldAutoShowInstall } from '@/pwa/install';
+import { useInstallUi } from '@/pwa/installUi';
 import { Icon, type IconName } from './Icon';
+import { InstallSheet } from './InstallSheet';
 import { Toaster } from './Toast';
 import { IconButton } from './ui';
 
@@ -18,6 +21,16 @@ const TABS: { to: string; label: string; icon: IconName }[] = [
 
 /** Moldura do app: coluna central (até 480px), barra de abas fixa e avisos. */
 export function AppLayout() {
+  const { open, setOpen } = useInstallUi();
+  // Logo depois do login, explica como instalar (uma vez por aparelho).
+  useEffect(() => {
+    if (!shouldAutoShowInstall()) return;
+    const id = setTimeout(() => {
+      markInstallAutoShown();
+      setOpen(true);
+    }, 900);
+    return () => clearTimeout(id);
+  }, [setOpen]);
   return (
     <div className="mx-auto min-h-screen max-w-app bg-background pb-[calc(84px+env(safe-area-inset-bottom))] min-[520px]:shadow-[0_0_0_1px_theme(colors.line)]">
       <Outlet />
@@ -40,6 +53,7 @@ export function AppLayout() {
         ))}
       </nav>
       <Toaster />
+      <InstallSheet open={open} onClose={() => setOpen(false)} />
     </div>
   );
 }

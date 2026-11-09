@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { InstallCard, InstallSheet } from '@/components/InstallSheet';
@@ -8,6 +7,7 @@ import { Avatar, Button, Card, IconButton, RoleTag } from '@/components/ui';
 import { signOut } from '@/features/auth/services';
 import { t } from '@/i18n/strings';
 import { isStandalone } from '@/pwa/install';
+import { useInstallUi } from '@/pwa/installUi';
 import { firstName, useAuth } from '@/stores/auth';
 
 const logo = `${import.meta.env.BASE_URL}logo.png`;
@@ -15,7 +15,7 @@ const logo = `${import.meta.env.BASE_URL}logo.png`;
 export default function Profile() {
   const navigate = useNavigate();
   const session = useAuth((s) => s.session);
-  const [install, setInstall] = useState(false);
+  const { open: install, setOpen: setInstall } = useInstallUi();
   const fullName = String(session?.user.user_metadata?.full_name ?? firstName(session));
 
   return (
