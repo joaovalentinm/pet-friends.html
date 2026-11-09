@@ -26,6 +26,7 @@ import Profile from '@/pages/Profile';
 import Reminders from '@/pages/Reminders';
 import { supabase } from '@/services/supabase';
 import { startAuth, useAuth } from '@/stores/auth';
+import { startAutoUpdate } from '@/pwa/update';
 
 /**
  * Os links de e-mail do Supabase (confirmar conta, nova senha, Google) voltam com
@@ -57,6 +58,7 @@ const pub = (el: React.ReactNode) => <PublicOnly>{el}</PublicOnly>;
 async function main() {
   await handleAuthRedirect();
   startAuth();
+  startAutoUpdate();
 
   const router = createHashRouter([
     {

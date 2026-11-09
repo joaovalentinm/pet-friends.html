@@ -50,9 +50,9 @@ function content(platform: Platform): { why: string; steps: ReactNode[]; note?: 
       return {
         why: s.iosWhy,
         steps: [
-          <>Toque em <Key icon="share" label="Compartilhar" /> na barra do Safari. Se não aparecer, toque em <Key icon="dots" /> e depois em Compartilhar.</>,
-          <>Role a lista e escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />.</>,
-          <>Toque em “Adicionar”. {finish}</>,
+          <>Toque em <Key icon="dots" /> ao lado da barra de endereço (no iPhone mais antigo, toque direto em <Key icon="share" />).</>,
+          <>Toque em <Key icon="share" label="Compartilhar" />, depois em <b>Ver mais</b>, e escolha <Key icon="plusSq" label="Adicionar à Tela de Início" />.</>,
+          <>Deixe <b>“Abrir como App Web”</b> ligado e toque em “Adicionar”. {finish}</>,
         ],
         note: s.iosNote,
       };

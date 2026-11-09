@@ -47,6 +47,7 @@ describe('InstallSheet', () => {
   it('no iPhone, mostra Adicionar à Tela de Início', () => {
     render(<InstallSheet open onClose={() => {}} platform="ios-safari" />);
     expect(screen.getByText('Adicionar à Tela de Início')).toBeInTheDocument();
+    expect(screen.getByText(/Abrir como App Web/)).toBeInTheDocument();
   });
   it('no Chrome do iPhone, manda tocar em compartilhar ao lado do endereço', () => {
     render(<InstallSheet open onClose={() => {}} platform="ios-chrome" />);
