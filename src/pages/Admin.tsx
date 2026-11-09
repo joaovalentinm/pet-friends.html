@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { FormError, PasswordField } from '@/components/form';
 import { Button, Card, IconButton } from '@/components/ui';
-import { fetchAdminStats, type AdminStats } from '@/features/admin/services';
+import { confirmOwnerPassword, fetchAdminStats, isPanelUnlocked, type AdminStats } from '@/features/admin/services';
 import { t } from '@/i18n/strings';
 
 const a = t.admin;
@@ -47,8 +48,37 @@ const shortDate = (iso: string) => {
   return `${d}/${m}`;
 };
 
+/** Pede a senha de novo antes de mostrar o Painel (proteção se o celular estiver em outras mãos). */
+function Unlock({ onUnlocked }: { onUnlocked: () => void }) {
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [busy, setBusy] = useState(false);
+  return (
+    <Card>
+      <h2 className="mb-1 text-title font-black text-heading">{a.unlockTitle}</h2>
+      <p className="mb-4 text-small text-textMuted">{a.unlockText}</p>
+      <form
+        onSubmit={async (e) => {
+          e.preventDefault();
+          setBusy(true);
+          setError('');
+          const ok = await confirmOwnerPassword(password);
+          setBusy(false);
+          if (ok) onUnlocked();
+          else setError(a.unlockWrong);
+        }}
+      >
+        <FormError message={error} />
+        <PasswordField label={t.auth.password} autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        <Button type="submit" label={busy ? a.unlocking : a.unlock} block disabled={busy || !password} />
+      </form>
+    </Card>
+  );
+}
+
 export default function Admin() {
   const navigate = useNavigate();
+  const [unlocked, setUnlocked] = useState(isPanelUnlocked);
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [error, setError] = useState('');
 
@@ -64,7 +94,9 @@ export default function Admin() {
       });
   }, []);
 
-  useEffect(load, [load]);
+  useEffect(() => {
+    if (unlocked) load();
+  }, [unlocked, load]);
 
   return (
     <div className="mx-auto min-h-screen max-w-app bg-background">
@@ -73,7 +105,9 @@ export default function Admin() {
         <h1 className="flex-1 text-h1 font-black text-heading">{a.title}</h1>
       </header>
       <main className="flex flex-col gap-4 px-screen pb-10">
-        {error ? (
+        {!unlocked ? (
+          <Unlock onUnlocked={() => setUnlocked(true)} />
+        ) : error ? (
           <Card className="text-center">
             <p className="mb-3 text-textMuted">{error}</p>
             {error === a.error ? <Button label={a.retry} onClick={load} /> : null}

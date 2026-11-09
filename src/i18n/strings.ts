@@ -143,6 +143,11 @@ export const t = {
     error: 'Não foi possível carregar os números agora. Tente de novo.',
     retry: 'Tentar de novo',
     loading: 'Carregando números...',
+    unlockTitle: 'Área exclusiva do dono',
+    unlockText: 'Por segurança, confirme sua senha para ver o Painel. Ele fica aberto por 15 minutos.',
+    unlock: 'Abrir Painel',
+    unlocking: 'Conferindo...',
+    unlockWrong: 'Senha incorreta.',
   },
   profile: {
     title: 'Perfil',

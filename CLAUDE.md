@@ -123,7 +123,7 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
 - **Métricas de uso (09/11/2026, pedido do responsável):** `public.app_usage` guarda só minutos por dia, via `track_usage`, com limite de 2 min por chamada. O **Painel** (`/#/painel`) é só para quem está em `private.admins` (a conta do responsável). `admin_stats()` devolve apenas totais. O advisor avisa sobre `is_admin`/`admin_stats` serem SECURITY DEFINER: é intencional, porque a checagem de admin fica dentro das funções.
 - Ícone do app = logo oficial completo sobre o creme `#FFF1D7` (`public/icons/`).
 - Login com Google: **removido** (09/11/2026).
-- **Painel: acesso exclusivo do responsável** (conta jpvalentinmmind7@gmail.com, única em `private.admins`). Nunca adicionar outras contas em `private.admins` sem pedido explícito dele. Contas de teste nunca podem ficar como admin.
+- **Painel: acesso exclusivo do responsável** (conta jpvalentinmmind7@gmail.com, única em `private.admins`). Travado no banco pela constraint `admins_somente_dono` (migration `20261109030000_painel_somente_dono.sql`). Para abrir o Painel, o app pede a senha de novo, e o acesso vale por 15 minutos na aba. Nunca alterar isso sem pedido explícito dele.
 - Hostinger: conta `u702147711`, pedido `1010187851`. Os sites `wearefield.io` (WordPress) e `bio.wearefield.io` (bio) são de outros projetos: **não mexer**.
 - Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.
