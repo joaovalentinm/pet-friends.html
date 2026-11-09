@@ -29,7 +29,7 @@ Pagamentos, assinaturas, plano Premium · comunidade/rede social · GPS/rastream
 Site: **React 19 + Vite 8 + TypeScript strict** · **Tailwind CSS 3.4** (cores de `src/theme/palette.js`) · **React Router 7** (rotas com `#`, ex.: `/#/pets`) · **vite-plugin-pwa** (manifesto, ícones, service worker, instalação) · fonte Nunito local (`@fontsource/nunito`, só alfabeto latino) · React Hook Form · Zod · Zustand (estado de cliente) · TanStack Query (dados do servidor).
 Login: e-mail/senha + Google.
 Lançamento: Nova Iguaçu – Baixada Fluminense (RJ).
-Endereço: domínio ainda a definir; o site usa caminhos relativos (`base: './'`) e funciona em subpasta ou domínio próprio.
+Endereço: **https://petfriends.wearefield.io** (Hostinger, subdomínio do domínio do responsável; SSL vitalício, HTTPS forçado, CDN). Nomes livres caso queiram domínio próprio depois: `meupetfriends.com.br`, `petfriendsapp.com.br` (exigem CPF/CNPJ). O site usa caminhos relativos (`base: './'`). Como publicar: `docs/PUBLICACAO.md`.
 Backend: Supabase (Postgres, Auth, Storage, Realtime, Edge Functions) com RLS.
 Notificações: **Web Push** (service worker + Supabase). Mapas: Google Maps para web + Places via Edge Function. Gráfico de peso: SVG simples. Monitoramento: Sentry (web). Testes: **Vitest + Testing Library**, E2E com **Playwright**.
 Publicar o site no ar (GitHub Pages, Hostinger, Vercel etc.) **só com autorização explícita do responsável**.
@@ -114,7 +114,8 @@ Uma tarefa só está pronta quando: lint e typecheck passam; testes novos/afetad
 ## Status atual
 
 - Rota: **site instalável (PWA)**, plano em `docs/PLANO_PWA.md`. A rota antiga (app nativo) está em `docs/PLANO_APP_NATIVO.md`, só como histórico.
-- **Etapa 1 (base do site + instalação) pronta no código** na branch `etapa-1-base` (PR #2). Falta **publicar** (precisa de autorização do responsável) e ele testar no celular.
+- **Etapa 1 (base do site + instalação) publicada** em https://petfriends.wearefield.io (09/11/2026), branch `etapa-1-base` (PR #2). Aguardando o responsável testar no celular e aprovar.
+- Hostinger: conta `u702147711`, pedido `1010187851`. Os sites `wearefield.io` (WordPress) e `bio.wearefield.io` (bio) são de outros projetos: **não mexer**.
 - Regras do responsável: uma etapa por vez; testar e dizer o que ele confere no celular; não adicionar nada fora da especificação sem perguntar; explicar em linguagem simples (ele não é programador).
 - Repositório: `joaovalentinm/pet-friends.html`. A branch `claude/joao-content-intelligence-9ze5og` é de **outro sistema** (FIELD): não mexer.
 - Supabase oficial: **"PET FRIENDS BACK SP"** (`eytigmsbliglsmbgrujq`, São Paulo). Nunca usar o pausado "PET FRIENDS BACK" (`bwvsalfevnwpiftkdvuc`) nem o "FIELD Project" (`jlqcgtyyjeevtkeehcdg`).
