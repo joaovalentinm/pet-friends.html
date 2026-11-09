@@ -115,6 +115,29 @@ function content(platform: Platform): { why: string; steps: ReactNode[]; note?: 
   }
 }
 
+/** Desenho da lista de opções do iPhone, com "Adicionar à Tela de Início" destacado. */
+function IosShareMock() {
+  const rows = ['Adicionar Favorito a...', 'Preferidos', 'Adicionar à Nota Rápida', 'Buscar na Página'];
+  return (
+    <figure className="mt-4" aria-label={s.mockLabel}>
+      <figcaption className="mb-2 text-small font-extrabold text-heading">{s.mockTitle}</figcaption>
+      <div className="overflow-hidden rounded-[18px] bg-[#3a3a3c] text-[15px] text-white shadow-card" aria-hidden="true">
+        {rows.map((r) => (
+          <div key={r} className="flex items-center gap-3 border-b border-white/10 px-4 py-[10px] opacity-60">
+            <span className="h-5 w-5 rounded-[5px] border-2 border-white/70" />
+            {r}
+          </div>
+        ))}
+        <div className="relative flex items-center gap-3 bg-accent px-4 py-[12px] font-extrabold">
+          <Icon name="plusSq" size={20} />
+          Adicionar à Tela de Início
+          <span className="ml-auto rounded-full bg-white px-2 py-[2px] text-[12px] font-black text-heading">{s.mockTap}</span>
+        </div>
+      </div>
+    </figure>
+  );
+}
+
 /** Folha "Instalar o app": instruções conforme o aparelho e o navegador. */
 export function InstallSheet({ open, onClose, platform = detectPlatform() }: { open: boolean; onClose: () => void; platform?: Platform }) {
   const canPrompt = useInstallPrompt() !== null && platform !== 'inapp' && !platform.startsWith('ios');
@@ -149,6 +172,7 @@ export function InstallSheet({ open, onClose, platform = detectPlatform() }: { o
         </div>
       ) : null}
       <Steps items={c.steps} />
+      {platform === 'ios-safari' || platform === 'ios-chrome' || platform === 'ios-other' ? <IosShareMock /> : null}
       {c.note ? <p className="mt-3 rounded-lg bg-infoBg p-3 text-small font-semibold text-heading">{c.note}</p> : null}
     </Sheet>
   );

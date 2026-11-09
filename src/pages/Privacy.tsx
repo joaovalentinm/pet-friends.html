@@ -15,13 +15,14 @@ export default function Privacy() {
         <h1 className="flex-1 text-h1 font-black text-heading">Termos e Privacidade</h1>
       </header>
       <main className="flex flex-col gap-4 px-screen pb-10">
-        <p className="text-tiny font-bold text-warnInk">Versão provisória 0.1 · 09/11/2026. A versão completa será publicada antes do lançamento.</p>
+        <p className="text-tiny font-bold text-warnInk">Versão provisória 0.2 · 09/11/2026. A versão completa será publicada antes do lançamento.</p>
         <Card>
           <h2 className="mb-2 text-title font-black text-heading">O que o Pet Friends guarda</h2>
           <ul className="list-disc space-y-1 pl-5 text-small">
             <li>Seu nome e e-mail, para criar sua conta e entrar no app.</li>
             <li>Os dados que você cadastra dos seus pets: nome, espécie, fotos, saúde, cuidados e lembretes.</li>
             <li>O registro de que você aceitou estes termos, com data e versão.</li>
+            <li>Quanto tempo o app fica aberto por dia (só os minutos, sem registrar o que você faz), para sabermos se o Pet Friends está sendo útil. Não usamos empresas de propaganda nem de rastreamento.</li>
           </ul>
         </Card>
         <Card>

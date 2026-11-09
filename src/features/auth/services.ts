@@ -4,7 +4,7 @@ import { siteUrl, supabase } from '@/services/supabase';
 import type { LoginInput, SignupInput } from './schemas';
 
 /** Versão dos Termos e da Política aceitos no cadastro. */
-export const TERMS_VERSION = '0.1';
+export const TERMS_VERSION = '0.2';
 
 /** Traduz erros do Supabase para mensagens claras em português. */
 export function authErrorMessage(error: AuthError | Error | null | undefined): string {

@@ -2,6 +2,7 @@ import type { Session } from '@supabase/supabase-js';
 import { create } from 'zustand';
 
 import { ensureConsents } from '@/features/auth/services';
+import { startUsageTracking, stopUsageTracking } from '@/features/usage/tracker';
 import { supabase } from '@/services/supabase';
 
 type AuthState = {
@@ -28,9 +29,12 @@ export function startAuth() {
   started = true;
   supabase.auth.getSession().then(({ data }) => {
     useAuth.setState({ session: data.session, loading: false });
+    if (data.session) startUsageTracking();
   });
   supabase.auth.onAuthStateChange((event, session) => {
     useAuth.setState({ session, loading: false, ...(event === 'PASSWORD_RECOVERY' ? { recovery: true } : {}) });
+    if (event === 'SIGNED_IN') startUsageTracking();
+    if (event === 'SIGNED_OUT') stopUsageTracking();
     const version = session?.user.user_metadata?.terms_version;
     if (event === 'SIGNED_IN' && session && typeof version === 'string') {
       // fora do callback para não travar o Supabase

@@ -17,6 +17,7 @@ import ForgotPassword from '@/pages/auth/ForgotPassword';
 import Login from '@/pages/auth/Login';
 import NewPassword from '@/pages/auth/NewPassword';
 import Signup from '@/pages/auth/Signup';
+import Admin from '@/pages/Admin';
 import Booklet from '@/pages/Booklet';
 import Home from '@/pages/Home';
 import Pets from '@/pages/Pets';
@@ -77,6 +78,7 @@ async function main() {
     { path: '/recuperar-senha', element: pub(<ForgotPassword />) },
     { path: '/nova-senha', element: app(<NewPassword />) },
     { path: '/privacidade', element: <Privacy /> },
+    { path: '/painel', element: app(<Admin />) },
     { path: '*', element: app(<AppLayout />) },
   ]);
 

@@ -1,9 +1,12 @@
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { InstallCard, InstallSheet } from '@/components/InstallSheet';
 import { Page } from '@/components/Layout';
 import { toast } from '@/components/Toast';
+import { Icon } from '@/components/Icon';
 import { Avatar, Button, Card, IconButton, RoleTag } from '@/components/ui';
+import { isAdmin } from '@/features/admin/services';
 import { signOut } from '@/features/auth/services';
 import { t } from '@/i18n/strings';
 import { isStandalone } from '@/pwa/install';
@@ -17,6 +20,10 @@ export default function Profile() {
   const session = useAuth((s) => s.session);
   const { open: install, setOpen: setInstall } = useInstallUi();
   const fullName = String(session?.user.user_metadata?.full_name ?? firstName(session));
+  const [admin, setAdmin] = useState(false);
+  useEffect(() => {
+    void isAdmin().then(setAdmin);
+  }, []);
 
   return (
     <>
@@ -35,6 +42,15 @@ export default function Profile() {
             </div>
           </Card>
         </section>
+        {admin ? (
+          <Link to="/painel" className="flex items-center gap-3 rounded-[20px] bg-heading px-4 py-[14px] text-white shadow-card">
+            <span className="min-w-0 flex-1">
+              <b className="block">{t.admin.open}</b>
+              <span className="text-tiny opacity-90">{t.admin.openHint}</span>
+            </span>
+            <Icon name="chevR" size={20} />
+          </Link>
+        ) : null}
         <Card>
           <p className="text-textMuted">{t.profile.soonText}</p>
         </Card>
