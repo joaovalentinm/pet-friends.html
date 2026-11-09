@@ -5,6 +5,7 @@ import '@fontsource/nunito/latin-800.css';
 import '@fontsource/nunito/latin-900.css';
 import './index.css';
 
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { createHashRouter, RouterProvider } from 'react-router-dom';
@@ -21,6 +22,8 @@ import Admin from '@/pages/Admin';
 import Booklet from '@/pages/Booklet';
 import Home from '@/pages/Home';
 import Pets from '@/pages/Pets';
+import PetDetail from '@/pages/pets/PetDetail';
+import PetForm from '@/pages/pets/PetForm';
 import Places from '@/pages/Places';
 import Privacy from '@/pages/Privacy';
 import Profile from '@/pages/Profile';
@@ -56,6 +59,8 @@ async function handleAuthRedirect() {
 const app = (el: React.ReactNode) => <RequireAuth>{el}</RequireAuth>;
 const pub = (el: React.ReactNode) => <PublicOnly>{el}</PublicOnly>;
 
+const queryClient = new QueryClient({ defaultOptions: { queries: { staleTime: 30_000, retry: 1, refetchOnWindowFocus: true } } });
+
 async function main() {
   await handleAuthRedirect();
   startAuth();
@@ -79,12 +84,17 @@ async function main() {
     { path: '/nova-senha', element: app(<NewPassword />) },
     { path: '/privacidade', element: <Privacy /> },
     { path: '/painel', element: app(<Admin />) },
+    { path: '/pets/novo', element: app(<PetForm />) },
+    { path: '/pets/:petId', element: app(<PetDetail />) },
+    { path: '/pets/:petId/editar', element: app(<PetForm />) },
     { path: '*', element: app(<AppLayout />) },
   ]);
 
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
-      <RouterProvider router={router} />
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
     </StrictMode>,
   );
 }

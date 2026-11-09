@@ -7,7 +7,7 @@ import { Sheet } from './Sheet';
 import { toast } from './Toast';
 import { Button } from './ui';
 
-const appIcon = `${import.meta.env.BASE_URL}icons/icon-192.png`;
+const appIcon = `${import.meta.env.BASE_URL}icons/icon-192-v2.png`;
 const s = t.install;
 
 function Key({ icon, label }: { icon?: IconName; label?: string }) {

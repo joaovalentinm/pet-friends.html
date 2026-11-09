@@ -12,7 +12,7 @@ export default defineConfig({
     VitePWA({
       registerType: 'autoUpdate',
       injectRegister: false, // registrado em src/pwa/update.ts (atualiza sozinho)
-      includeAssets: ['icons/apple-touch-icon.png', 'logo.png'],
+      includeAssets: ['icons/apple-touch-icon-v2.png', 'logo.png'],
       manifest: {
         name: 'Pet Friends',
         short_name: 'Pet Friends',
@@ -25,9 +25,9 @@ export default defineConfig({
         background_color: '#FFF1D7',
         theme_color: '#16A34A',
         icons: [
-          { src: 'icons/icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icons/icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
+          { src: 'icons/icon-192-v2.png', sizes: '192x192', type: 'image/png' },
+          { src: 'icons/icon-512-v2.png', sizes: '512x512', type: 'image/png' },
+          { src: 'icons/icon-maskable-512-v2.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
         ],
       },
       workbox: { globPatterns: ['**/*.{js,css,html,png,svg,woff2}'], cleanupOutdatedCaches: true, clientsClaim: true, skipWaiting: true },
